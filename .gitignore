@@ -1,0 +1,15 @@
+# Author: Bucky Frost
+# File: .gitignore
+# Purpose: A git ignore file for the CS 372 CPS project.
+# Ignores: binary output from compiler/profiler and swap files from vim
+
+# Ignore the build directory of the project
+build/
+
+*.out
+*.o
+*.a
+*.swp
+*.gch
+profile.0*
+*.csv
