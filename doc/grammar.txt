@@ -1,30 +1,30 @@
-Authors: Paul Gentemann
-	 Erik Talvi
-	 Bucky Frost
-
+Authors: 
+	Paul Gentemann
+	Erik Talvi
+	Bucky Frost
 File: grammar.txt
 Purpose: Design of a shape language that will be used to implement a C++ to
 PostScript library for drawing shapes.
 
 
-operations = rotated | scaled | layered | vertical | horizontal;
+Operations are rotated | scaled | layered | vertical | horizontal.
 
-rotated = shape, rotation angle;
-scaled = shape, number, number;
-layered = {shape};
-horizontal = {shape};
+Rotated takes parameters shape, rotation angle.
+Scaled takes parameters shape, number, number.
+Layered takes parameter {shape}.
+Horizontal takes parameter {shape}.
 
-shape = circle | polygon | rectangle | spacer | square | triangle;
+Shape can be circle | polygon | rectangle | spacer | square | triangle.
 
-polygon = square | triangle | positive number, positive number;
-rectangle = positive number, positive number;
-spacer = rectangle;
+Polygon can be square | triangle | positive number, positive number.
+Rectangle takes parameters positive number, positive number.
+Spacer is a rectangle.
 
-circle = positive number;
-square = positive number;
-triangle = positive number;
+Circle takes parameter positive number.
+Square takes parameter positive number.
+Triangle takes parameter positive number.
 
 
-rotation angle = "90" | "180" | "270";
-number = (-00, 00); // sorry, breaking syntax
-positive number = [0 - 00);
+Rotation angle can be "90" | "180" | "270".
+Number are in range (-inf, inf).
+Positive number is in range (0, inf).
