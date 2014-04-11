@@ -6,5 +6,6 @@ TEST_CASE( "square"){
 	Rectangle a(1,1);
 	REQUIRE( a.width() == 1);
 	REQUIRE( a.length() == 1);
+	Square square(1);
 
 }
