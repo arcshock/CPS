@@ -8,7 +8,11 @@ class Rectangle
 		{}
 		double width()
 		{
-			return 0;
+			return _width;
+		}
+		double length()
+		{
+			return _length;
 		}
 
 	private:
