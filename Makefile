@@ -26,6 +26,10 @@ all:
 run:
 	./build/debug/cps-build.out
 
+exe:
+	$(CC) $(CFLAGS) $(INCLUDE) $(SRC)  -o ./build/debug/cps-build.out
+	./build/debug/cps-build.out
+
 debug:
 	$(CC) $(CFLAGS) $(CFLAGS_DEBUG) $(INCLUDE) $(SRC) -o ./build/debug/cps-debug.out
 
