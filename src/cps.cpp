@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "Rectangle.h"
+#include "Shapes.h"
 #include <string>
 using std::string;
 

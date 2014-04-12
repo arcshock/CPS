@@ -1,5 +1,5 @@
-#ifndef RECTANGLE_H
-#define RECTANGLE_H
+#ifndef SHAPES_H
+#define SHAPES_H
 #include <string>
 using std::string;
 using std::to_string;
@@ -35,11 +35,6 @@ class Rectangle : public Spacer
 		}
 
 };
-
-#endif
-
-#ifndef SQUARE_H
-#define SQUARE_H
 
 class Square : public Rectangle
 {
