@@ -18,14 +18,14 @@ string printTestangle = "2.000000 inch 1.500000 inch rmoveto\n"
 					 "stroke\n";
 
 Rectangle square(1,1);
-Rectangle testangle(3,4);
+Rectangle testangle(4,3);
 
 TEST_CASE( "square"){
 	REQUIRE( square.width() == 1);
-	REQUIRE( square.length() == 1);
+	REQUIRE( square.height() == 1);
 	REQUIRE( square.print() == printSquare);
 
 	REQUIRE( testangle.width() == 4);
-	REQUIRE( testangle.length() == 3);
+	REQUIRE( testangle.height() == 3);
 	REQUIRE( testangle.print() == printTestangle);
 }
