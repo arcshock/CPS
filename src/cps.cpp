@@ -4,29 +4,41 @@
 #include <string>
 using std::string;
 
-string printRectangle1 = "0.500000 inch 1.000000 inch rmoveto\n"
-					 "-1.000000 inch 0 inch rlineto\n"
-					 "0 inch -2.000000 inch rlineto\n"
-					 "1.000000 inch 0 inch rlineto\n"
-					 "0 inch 2.000000 inch rlineto\n"
-					 "stroke\n";
-string printRectangle2 = "2.000000 inch 1.500000 inch rmoveto\n"
-					 "-4.000000 inch 0 inch rlineto\n"
-					 "0 inch -3.000000 inch rlineto\n"
-					 "4.000000 inch 0 inch rlineto\n"
-					 "0 inch 3.000000 inch rlineto\n"
-					 "stroke\n";
-string printSquare = "1.500000 inch 1.500000 inch rmoveto\n"
-					 "-3.000000 inch 0 inch rlineto\n"
-					 "0 inch -3.000000 inch rlineto\n"
-					 "3.000000 inch 0 inch rlineto\n"
-					 "0 inch 3.000000 inch rlineto\n"
-					 "stroke\n";
-string printSpacer = "1.000000 inch 0.500000 inch rmoveto\n"
-					 "-2.000000 inch 0 inch rlineto\n"
-					 "0 inch -1.000000 inch rlineto\n"
-					 "2.000000 inch 0 inch rlineto\n"
-					 "0 inch 1.000000 inch rlineto\n";
+string printRectangle1 = 
+"gsave\n"					
+	"\t0.500000 inch 1.000000 inch rmoveto\n"
+ 	"\t-1.000000 inch 0 inch rlineto\n"
+	 "\t0 inch -2.000000 inch rlineto\n"
+	 "\t1.000000 inch 0 inch rlineto\n"
+	 "\t0 inch 2.000000 inch rlineto\n"
+	 "\tstroke\n"
+"grestore\n";
+string printRectangle2 =
+"gsave\n"
+	 "\t2.000000 inch 1.500000 inch rmoveto\n"
+	 "\t-4.000000 inch 0 inch rlineto\n"
+	 "\t0 inch -3.000000 inch rlineto\n"
+	 "\t4.000000 inch 0 inch rlineto\n"
+	 "\t0 inch 3.000000 inch rlineto\n"
+	 "\tstroke\n"
+"grestore\n";
+string printSquare = 
+"gsave\n"
+	"\t1.500000 inch 1.500000 inch rmoveto\n"
+	"\t-3.000000 inch 0 inch rlineto\n"
+	"\t0 inch -3.000000 inch rlineto\n"
+	"\t3.000000 inch 0 inch rlineto\n"
+	"\t0 inch 3.000000 inch rlineto\n"
+	"\tstroke\n"
+"grestore\n";
+string printSpacer = 
+"gsave\n"
+	"\t1.000000 inch 0.500000 inch rmoveto\n"
+	"\t-2.000000 inch 0 inch rlineto\n"
+	"\t0 inch -1.000000 inch rlineto\n"
+	"\t2.000000 inch 0 inch rlineto\n"
+	"\t0 inch 1.000000 inch rlineto\n"
+"grestore\n";
 
 
 

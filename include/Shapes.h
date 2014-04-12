@@ -10,16 +10,17 @@ class Spacer
 		Spacer(double width, double height)   
 		{
 			_outputToPostScript = 
-					to_string(width / 2.0) + " inch " + to_string(height / 2.0) +
+					"gsave\n" 
+					"\t" + to_string(width / 2.0) + " inch " + to_string(height / 2.0) +
 					" inch rmoveto\n" + 
-					 "-" + to_string(width) + " inch 0 inch rlineto\n"
-					 "0 inch -" + to_string(height) + " inch rlineto\n" +
-					 to_string(width) + " inch 0 inch rlineto\n"
-					 "0 inch " + to_string(height) + " inch rlineto\n";
+					"\t-" + to_string(width) + " inch 0 inch rlineto\n"
+					"\t0 inch -" + to_string(height) + " inch rlineto\n" +
+					"\t" + to_string(width) + " inch 0 inch rlineto\n"
+					"\t0 inch " + to_string(height) + " inch rlineto\n";
 		}
 		virtual string print()
 		{
-			return _outputToPostScript;
+			return _outputToPostScript + "grestore\n";
 		}
 
 	protected:
@@ -31,7 +32,7 @@ class Rectangle : public Spacer
 	public:
 		Rectangle(double width, double height) : Spacer(width, height) 
 		{
-			_outputToPostScript += "stroke\n";
+			_outputToPostScript += "\tstroke\n";
 		}
 
 };
@@ -42,5 +43,16 @@ class Square : public Rectangle
 		Square(double side) : Rectangle(side, side) {}
 };
 
+/*
+class Circle
+{
+	public:
+		Circle(double radius)
+		{
+			_outputToPostScript =
+					"
+				
+};
+*/
 #endif
 
