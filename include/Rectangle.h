@@ -4,10 +4,10 @@
 using std::string;
 using std::to_string;
 
-class Rectangle
+class Spacer
 {
 	public:
-		Rectangle(double width, double height) : _width(width), _height(height) 
+		Spacer(double width, double height) : _width(width), _height(height) 
 		{}
 		double height()
 		{
@@ -17,6 +17,27 @@ class Rectangle
 		{
 			return _width;
 		}
+		virtual string print()
+		{
+			string toPS = to_string(_width / 2.0) + " inch " + to_string(_height / 2.0) +
+					" inch rmoveto\n" + 
+					 "-" + to_string(_width) + " inch 0 inch rlineto\n"
+					 "0 inch -" + to_string(_height) + " inch rlineto\n" +
+					 to_string(_width) + " inch 0 inch rlineto\n"
+					 "0 inch " + to_string(_height) + " inch rlineto\n";
+			return toPS;
+		}
+
+	protected:
+		double _width;
+		double _height;
+};
+
+class Rectangle : public Spacer
+{
+	public:
+		Rectangle(double width, double height) : Spacer(width, height) {}
+
 		string print()
 		{
 			string toPS = to_string(_width / 2.0) + " inch " + to_string(_height / 2.0) +
@@ -25,16 +46,13 @@ class Rectangle
 					 "0 inch -" + to_string(_height) + " inch rlineto\n" +
 					 to_string(_width) + " inch 0 inch rlineto\n"
 					 "0 inch " + to_string(_height) + " inch rlineto\n"
-					 "stroke\n";
+					"stroke\n";
 			return toPS;
-
-
 		}
-
-	private:
-		double _width;
-		double _height;
 };
+
+
+
 
 #endif
 

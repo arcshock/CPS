@@ -22,13 +22,20 @@ string printSquare = "1.500000 inch 1.500000 inch rmoveto\n"
 					 "3.000000 inch 0 inch rlineto\n"
 					 "0 inch 3.000000 inch rlineto\n"
 					 "stroke\n";
+string printSpacer = "1.000000 inch 0.500000 inch rmoveto\n"
+					 "-2.000000 inch 0 inch rlineto\n"
+					 "0 inch -1.000000 inch rlineto\n"
+					 "2.000000 inch 0 inch rlineto\n"
+					 "0 inch 1.000000 inch rlineto\n";
+
 
 
 Rectangle rectangle1(1,2);
 Rectangle rectangle2(4,3);
 Square square(3);
+Spacer spacer(2,1);
 
-TEST_CASE( "rectangle1"){
+TEST_CASE( "shapes"){
 	REQUIRE( rectangle1.width() == 1);
 	REQUIRE( rectangle1.height() == 2);
 	REQUIRE( rectangle1.print() == printRectangle1);
@@ -40,4 +47,8 @@ TEST_CASE( "rectangle1"){
 	REQUIRE( square.width() == 3);
 	REQUIRE( square.height() == 3);
 	REQUIRE( square.print() == printSquare);
+
+	REQUIRE( spacer.width() == 2);
+	REQUIRE( spacer.height() == 1);
+	REQUIRE( spacer.print() == printSpacer);
 }
