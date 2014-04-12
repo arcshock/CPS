@@ -7,52 +7,34 @@ using std::to_string;
 class Spacer
 {
 	public:
-		Spacer(double width, double height) : _width(width), _height(height) 
-		{}
-		double height()
+		Spacer(double width, double height)   
 		{
-			return _height;
-		}
-		double width()
-		{
-			return _width;
+			_outputToPostScript = 
+					to_string(width / 2.0) + " inch " + to_string(height / 2.0) +
+					" inch rmoveto\n" + 
+					 "-" + to_string(width) + " inch 0 inch rlineto\n"
+					 "0 inch -" + to_string(height) + " inch rlineto\n" +
+					 to_string(width) + " inch 0 inch rlineto\n"
+					 "0 inch " + to_string(height) + " inch rlineto\n";
 		}
 		virtual string print()
 		{
-			string toPS = to_string(_width / 2.0) + " inch " + to_string(_height / 2.0) +
-					" inch rmoveto\n" + 
-					 "-" + to_string(_width) + " inch 0 inch rlineto\n"
-					 "0 inch -" + to_string(_height) + " inch rlineto\n" +
-					 to_string(_width) + " inch 0 inch rlineto\n"
-					 "0 inch " + to_string(_height) + " inch rlineto\n";
-			return toPS;
+			return _outputToPostScript;
 		}
 
 	protected:
-		double _width;
-		double _height;
+		string _outputToPostScript;
 };
 
 class Rectangle : public Spacer
 {
 	public:
-		Rectangle(double width, double height) : Spacer(width, height) {}
-
-		string print()
+		Rectangle(double width, double height) : Spacer(width, height) 
 		{
-			string toPS = to_string(_width / 2.0) + " inch " + to_string(_height / 2.0) +
-					" inch rmoveto\n" + 
-					 "-" + to_string(_width) + " inch 0 inch rlineto\n"
-					 "0 inch -" + to_string(_height) + " inch rlineto\n" +
-					 to_string(_width) + " inch 0 inch rlineto\n"
-					 "0 inch " + to_string(_height) + " inch rlineto\n"
-					"stroke\n";
-			return toPS;
+			_outputToPostScript += "stroke\n";
 		}
+
 };
-
-
-
 
 #endif
 

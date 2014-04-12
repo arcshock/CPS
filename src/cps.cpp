@@ -36,19 +36,8 @@ Square square(3);
 Spacer spacer(2,1);
 
 TEST_CASE( "shapes"){
-	REQUIRE( rectangle1.width() == 1);
-	REQUIRE( rectangle1.height() == 2);
 	REQUIRE( rectangle1.print() == printRectangle1);
-
-	REQUIRE( rectangle2.width() == 4);
-	REQUIRE( rectangle2.height() == 3);
 	REQUIRE( rectangle2.print() == printRectangle2);
-
-	REQUIRE( square.width() == 3);
-	REQUIRE( square.height() == 3);
 	REQUIRE( square.print() == printSquare);
-
-	REQUIRE( spacer.width() == 2);
-	REQUIRE( spacer.height() == 1);
 	REQUIRE( spacer.print() == printSpacer);
 }
