@@ -4,28 +4,40 @@
 #include <string>
 using std::string;
 
-string printSquare = "0.500000 inch 0.500000 inch rmoveto\n"
+string printRectangle1 = "0.500000 inch 1.000000 inch rmoveto\n"
 					 "-1.000000 inch 0 inch rlineto\n"
-					 "0 inch -1.000000 inch rlineto\n"
+					 "0 inch -2.000000 inch rlineto\n"
 					 "1.000000 inch 0 inch rlineto\n"
-					 "0 inch 1.000000 inch rlineto\n"
+					 "0 inch 2.000000 inch rlineto\n"
 					 "stroke\n";
-string printTestangle = "2.000000 inch 1.500000 inch rmoveto\n"
+string printRectangle2 = "2.000000 inch 1.500000 inch rmoveto\n"
 					 "-4.000000 inch 0 inch rlineto\n"
 					 "0 inch -3.000000 inch rlineto\n"
 					 "4.000000 inch 0 inch rlineto\n"
 					 "0 inch 3.000000 inch rlineto\n"
 					 "stroke\n";
+string printSquare = "1.500000 inch 1.500000 inch rmoveto\n"
+					 "-3.000000 inch 0 inch rlineto\n"
+					 "0 inch -3.000000 inch rlineto\n"
+					 "3.000000 inch 0 inch rlineto\n"
+					 "0 inch 3.000000 inch rlineto\n"
+					 "stroke\n";
 
-Rectangle square(1,1);
-Rectangle testangle(4,3);
 
-TEST_CASE( "square"){
-	REQUIRE( square.width() == 1);
-	REQUIRE( square.height() == 1);
+Rectangle rectangle1(1,2);
+Rectangle rectangle2(4,3);
+Square square(3);
+
+TEST_CASE( "rectangle1"){
+	REQUIRE( rectangle1.width() == 1);
+	REQUIRE( rectangle1.height() == 2);
+	REQUIRE( rectangle1.print() == printRectangle1);
+
+	REQUIRE( rectangle2.width() == 4);
+	REQUIRE( rectangle2.height() == 3);
+	REQUIRE( rectangle2.print() == printRectangle2);
+
+	REQUIRE( square.width() == 3);
+	REQUIRE( square.height() == 3);
 	REQUIRE( square.print() == printSquare);
-
-	REQUIRE( testangle.width() == 4);
-	REQUIRE( testangle.height() == 3);
-	REQUIRE( testangle.print() == printTestangle);
 }
