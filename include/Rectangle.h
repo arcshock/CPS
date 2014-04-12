@@ -7,24 +7,24 @@ using std::to_string;
 class Rectangle
 {
 	public:
-		Rectangle(double length, double width) : _length(length), _width(width) 
+		Rectangle(double width, double height) : _width(width), _height(height) 
 		{}
+		double height()
+		{
+			return _height;
+		}
 		double width()
 		{
 			return _width;
 		}
-		double length()
-		{
-			return _length;
-		}
 		string print()
 		{
-			string toPS = to_string(_width / 2.0) + " inch " + to_string(_length / 2.0) +
+			string toPS = to_string(_width / 2.0) + " inch " + to_string(_height / 2.0) +
 					" inch rmoveto\n" + 
 					 "-" + to_string(_width) + " inch 0 inch rlineto\n"
-					 "0 inch -" + to_string(_length) + " inch rlineto\n" +
+					 "0 inch -" + to_string(_height) + " inch rlineto\n" +
 					 to_string(_width) + " inch 0 inch rlineto\n"
-					 "0 inch " + to_string(_length) + " inch rlineto\n"
+					 "0 inch " + to_string(_height) + " inch rlineto\n"
 					 "stroke\n";
 			return toPS;
 
@@ -32,8 +32,8 @@ class Rectangle
 		}
 
 	private:
-		double _length;
 		double _width;
+		double _height;
 };
 
 #endif
