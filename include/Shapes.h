@@ -22,7 +22,7 @@ class Polygon
 
 		coordinate initializeStartingPoint()
 		{
-			if (isOdd()) {
+			if (isNumSidesOdd()) {
 				return make_pair(0.0, (_height / 2.0) / 72.0);
 			} else {
 				return make_pair((_sideLength/2.0) / 72.0, (_height / 2.0) / 72.0);
@@ -39,12 +39,12 @@ class Polygon
 		}
 	private:
 
-		bool isOdd()
+		bool isNumSidesOdd()
 		{
 			return _numSides%2;
 		}
 		
-		bool isEven()
+		bool isNumSidesEven()
 		{
 			return !isOdd();
 		}
