@@ -13,7 +13,7 @@ class Polygon
 	typedef pair<double, double> coordinate; 
 
 	public:
-		Polygon(int numSides, double sideLength):_numSides(numSides), _sideLength(sideLength)
+		Polygon(int numSides, double sideLength):_numSides(numSides / 72.0), _sideLength(sideLength / 72.0)
 		{
 			setHeight();
 			setWidth();
@@ -22,11 +22,11 @@ class Polygon
 
 		coordinate initializeStartingPoint()
 		{
-			if (isNumSidesOdd()) {
-				return make_pair(0.0, (_height / 2.0) / 72.0);
-			} else {
-				return make_pair((_sideLength/2.0) / 72.0, (_height / 2.0) / 72.0);
+			coordinate startingPoint = make_pair(0.0, _height / 2.0);
+			if (isNumSidesEven()) {
+				startingPoint.first = _sideLength/2.0;
 			}
+			return startingPoint;
 		}
 
 		void drawPolygon()
@@ -46,7 +46,7 @@ class Polygon
 		
 		bool isNumSidesEven()
 		{
-			return !isOdd();
+			return !isNumSidesOdd();
 		}
 
 		void setHeight()
