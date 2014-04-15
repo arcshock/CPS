@@ -6,10 +6,11 @@ using std::to_string;
 
 #include <utility>
 using std::pair;
+using std::make_pair;
 
 class Polygon 
 {
-	typedef coordinate pair<double, double>;
+	typedef pair<double, double> coordinate; 
 
 	public:
 		Polygon(int numSides, double sideLength):_numSides(numSides), _sideLength(sideLength)
@@ -31,17 +32,23 @@ class Polygon
 		void drawPolygon()
 		{
 			for (int ii = 0; ii < _numSides; ++ii) {
-				_outputString += "" // PS to draw the lines of side length
-				_outputString += "" // PS to rotate by 360/numSides
+				_outputToPostScript += ""; // PS to draw the lines of side length
+				_outputToPostScript += ""; // PS to rotate by 360/numSides
 			}
-			_outputString += "Stroke\n";
+			_outputToPostScript += "Stroke\n";
 		}
 	private:
 
 		bool isOdd()
-		{}
+		{
+			return _numSides%2;
+		}
+		
 		bool isEven()
-		{}
+		{
+			return !isOdd();
+		}
+
 		void setHeight()
 		{
 			// TODO
