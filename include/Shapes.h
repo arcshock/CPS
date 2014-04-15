@@ -29,7 +29,7 @@ class Polygon
 			return startingPoint;
 		}
 
-		void drawPolygon()
+		void draw()
 		{
 			for (int ii = 0; ii < _numSides; ++ii) {
 				_outputToPostScript += ""; // PS to draw the lines of side length
@@ -72,7 +72,6 @@ class Spacer
 		Spacer(double width, double height)   
 		{
 			_outputToPostScript = 
-					"gsave\n" 
 					"\t" + to_string(width / 2.0) + " inch " + to_string(height / 2.0) +
 					" inch rmoveto\n" + 
 					"\t-" + to_string(width) + " inch 0 inch rlineto\n"
@@ -80,9 +79,9 @@ class Spacer
 					"\t" + to_string(width) + " inch 0 inch rlineto\n"
 					"\t0 inch " + to_string(height) + " inch rlineto\n";
 		}
-		virtual string print()
+		virtual string draw()
 		{
-			return _outputToPostScript + "grestore\n";
+			return "gsave\n" + _outputToPostScript + "grestore\n";
 		}
 
 	protected:
