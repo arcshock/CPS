@@ -4,6 +4,61 @@
 using std::string;
 using std::to_string;
 
+#include <utility>
+using std::pair;
+
+class Polygon 
+{
+	typedef coordinate pair<double, double>;
+
+	public:
+		Polygon(int numSides, double sideLength):_numSides(numSides), _sideLength(sideLength)
+		{
+			setHeight();
+			setWidth();
+			initializeStartingPoint();
+		}
+
+		coordinate initializeStartingPoint()
+		{
+			if (isOdd()) {
+				return make_pair(0.0, (_height / 2.0) / 72.0);
+			} else {
+				return make_pair((_sideLength/2.0) / 72.0, (_height / 2.0) / 72.0);
+			}
+		}
+
+		void drawPolygon()
+		{
+			for (int ii = 0; ii < _numSides; ++ii) {
+				_outputString += "" // PS to draw the lines of side length
+				_outputString += "" // PS to rotate by 360/numSides
+			}
+			_outputString += "Stroke\n";
+		}
+	private:
+
+		bool isOdd()
+		{}
+		bool isEven()
+		{}
+		void setHeight()
+		{
+			// TODO
+		}
+
+		void setWidth()
+		{
+			// TODO
+		}
+
+		string _outputToPostScript;
+		int _numSides;
+		double _sideLength;
+		double _height;
+		double _width;
+};
+
 class Spacer
 {
 	public:
