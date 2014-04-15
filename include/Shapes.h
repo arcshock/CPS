@@ -17,7 +17,7 @@ class Polygon
 		{
 			setHeight();
 			setWidth();
-			initializeStartingPoint();
+			coordinate startingPoint = initializeStartingPoint();
 		}
 
 		coordinate initializeStartingPoint()
