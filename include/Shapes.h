@@ -11,14 +11,18 @@ using std::cos;
 using std::pair;
 using std::make_pair;
 
+const double PI = 3.14159265358979;
+
 class Polygon 
 {
 	typedef pair<double, double> coordinate; 
 
 	public:
-		Polygon(int numSides, double sideLength):_numSides(numSides / 72.0), _sideLength(sideLength / 72.0)
+		Polygon(int numSides, double sideLength):
+			_numSides(numSides / 72.0), _sideLength(sideLength / 72.0)
 		{
-			setHeightAndWidth();
+			setHeight();
+			setWidth();
 			coordinate startingPoint = initializeStartingPoint();
 		}
 
@@ -55,20 +59,29 @@ class Polygon
 		{
 			return (numSides%4==0);
 		}
-
-		void setHeightandWidth()
+		
+		void setHeight()
 		{
-			const double PI = 3.14159265358979;
-			const double ANGLE = PI / _numSides;
+			double angle = PI / _numSides;
 			if (isNumSidesOdd()) {
-				_height = _sideLength * (1 + cos(ANGLE)) / 2 * ANGLE;
-				_width = _sideLength * sin(ANGLE * (_numSides - 1) / 2);
+				_height = _sideLength * (1 + cos(angle)) / 2 * angle;
 			}
 			else {
-				_height = _sideLength * cos(ANGLE) / sin(ANGLE);
-				_width = _sideLength / sin(ANGLE);
+				_height = _sideLength * cos(angle) / sin(angle);
+			}
+
+		}
+
+		void setWidth()
+		{
+			double angle = PI / _numSides;
+			if (isNumSidesOdd()) {
+				_width = _sideLength * sin(angle * (_numSides - 1) / 2);
+			}
+			else {
+				_width = _sideLength / sin(angle);
 				if (isNotDivisibleByFour(_numSides)) {
-					_width *= cos(ANGLE);
+					_width *= cos(angle);
 				}
 			}
 		}
