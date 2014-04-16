@@ -48,8 +48,8 @@ Square square(3);
 Spacer spacer(2,1);
 
 TEST_CASE( "shapes"){
-	REQUIRE( rectangle1.print() == printRectangle1);
-	REQUIRE( rectangle2.print() == printRectangle2);
-	REQUIRE( square.print() == printSquare);
-	REQUIRE( spacer.print() == printSpacer);
+	REQUIRE( rectangle1.draw() == printRectangle1);
+	REQUIRE( rectangle2.draw() == printRectangle2);
+	REQUIRE( square.draw() == printSquare);
+	REQUIRE( spacer.draw() == printSpacer);
 }
