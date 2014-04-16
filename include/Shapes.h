@@ -55,9 +55,13 @@ class Polygon
 			return !isNumSidesOdd();
 		}
 		
-		bool isNotDivisibleByFour(int numSides)
+		bool sidesDivisibleByFour()
 		{
-			return (numSides%4==0);
+			return (_numSides%4==0);
+		}
+		bool sidesNotDivisibleByFour()
+		{
+			return !sidesDivisibleByFour();
 		}
 		
 		void setHeight()
@@ -80,7 +84,7 @@ class Polygon
 			}
 			else {
 				_width = _sideLength / sin(angle);
-				if (isNotDivisibleByFour(_numSides)) {
+				if (sidesNotDivisibleByFour()) {
 					_width *= cos(angle);
 				}
 			}
