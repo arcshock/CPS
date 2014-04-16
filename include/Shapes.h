@@ -3,6 +3,9 @@
 #include <string>
 using std::string;
 using std::to_string;
+#include <cmath>
+using std::sin;
+using std::cos;
 
 #include <utility>
 using std::pair;
@@ -15,8 +18,7 @@ class Polygon
 	public:
 		Polygon(int numSides, double sideLength):_numSides(numSides / 72.0), _sideLength(sideLength / 72.0)
 		{
-			setHeight();
-			setWidth();
+			setHeightAndWidth();
 			coordinate startingPoint = initializeStartingPoint();
 		}
 
@@ -48,15 +50,27 @@ class Polygon
 		{
 			return !isNumSidesOdd();
 		}
-
-		void setHeight()
+		
+		bool isNotDivisibleByFour(int numSides)
 		{
-			// TODO
+			return (numSides%4==0);
 		}
 
-		void setWidth()
+		void setHeightandWidth()
 		{
-			// TODO
+			const double PI = 3.14159265358979;
+			const double ANGLE = PI / _numSides;
+			if (isNumSidesOdd()) {
+				_height = _sideLength * (1 + cos(ANGLE)) / 2 * ANGLE;
+				_width = _sideLength * sin(ANGLE * (_numSides - 1) / 2);
+			}
+			else {
+				_height = _sideLength * cos(ANGLE) / sin(ANGLE);
+				_width = _sideLength / sin(ANGLE);
+				if (isNotDivisibleByFour(_numSides)) {
+					_width *= cos(ANGLE);
+				}
+			}
 		}
 
 		string _outputToPostScript;
