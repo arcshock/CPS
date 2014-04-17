@@ -23,6 +23,8 @@ class Polygon
 			setHeight();
 			setWidth();
 			coordinate startingPoint = initializeStartingPoint();
+			_outputToPostScript = "\t" + to_string(startingPoint.first) + " inch " + 
+								  to_string(startingPoint.second) + " inch rmoveto\n";
 
 			for (int side = 0; side < _numSides; ++side)
 			{
@@ -72,7 +74,7 @@ class Polygon
 		{
 			double angle = PI / _numSides;
 			if (isNumSidesOdd()) {
-				_height = _sideLength * (1 + cos(angle)) / 2 * angle;
+				_height = _sideLength * (1 + cos(angle)) / (2 * sin(angle));
 			}
 			else {
 				_height = _sideLength * cos(angle) / sin(angle);
@@ -84,7 +86,7 @@ class Polygon
 		{
 			double angle = PI / _numSides;
 			if (isNumSidesOdd()) {
-				_width = _sideLength * sin(angle * (_numSides - 1) / 2);
+				_width = (_sideLength * sin(angle * (_numSides - 1) / 2))  / sin(angle);
 			}
 			else {
 				_width = _sideLength / sin(angle);
@@ -142,16 +144,25 @@ class Square : public Rectangle
 		Square(double side) : Rectangle(side, side) {}
 };
 
-/*
 class Circle
 {
 	public:
-		Circle(double radius)
+		Circle(double radius) : _radius(radius / 72.)
 		{
-			_outputToPostScript =
-					"
-				
+			_outputToPostScript = "\t0 0 " + to_string(_radius) + " inch 0 360 arc\n"
+				"\tclosepath\n"
+				"\tstroke\n";
+		}			
+
+		string draw()
+		{
+			return "gsave\n" + _outputToPostScript + "grestore\n";
+		}
+
+	private: 
+		double _radius;
+		string _outputToPostScript;
+
 };
-*/
 #endif
 
