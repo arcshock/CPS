@@ -41,6 +41,7 @@ string printSpacer =
 "grestore\n";
 string printHexagon =
 "gsave\n"
+	"\t0.500000 inch 0.866025 inch rmoveto\n"
 	"\t60.000000 rotate\n"
 	"\t1.000000 inch 0 inch rlineto\n"
 	"\t60.000000 rotate\n"
@@ -55,13 +56,37 @@ string printHexagon =
 	"\t1.000000 inch 0 inch rlineto\n"
 	"\tstroke\n"
 "grestore\n";
+string printPentagon = 
+"gsave\n"
+	"\t0.000000 inch 0.769421 inch rmoveto\n"
+	"\t72.000000 rotate\n"
+	"\t1.000000 inch 0 inch rlineto\n"
+	"\t72.000000 rotate\n"
+	"\t1.000000 inch 0 inch rlineto\n"
+	"\t72.000000 rotate\n"
+	"\t1.000000 inch 0 inch rlineto\n"
+	"\t72.000000 rotate\n"
+	"\t1.000000 inch 0 inch rlineto\n"
+	"\t72.000000 rotate\n"
+	"\t1.000000 inch 0 inch rlineto\n"
+	"\tstroke\n"
+"grestore\n";
+string printCircle =
+"gsave\n"
+	"\t0 0 1.000000 inch 0 360 arc\n"
+	"\tclosepath\n"
+	"\tstroke\n"
+"grestore\n";
 
-
-Rectangle rectangle1(1,2);
-Rectangle rectangle2(4,3);
-Square square(3);
-Spacer spacer(2,1);
+Rectangle rectangle1(1 * 72,2 * 72);
+Rectangle rectangle2(4 * 72 ,3 * 72);
+Square square(3 * 72);
+Spacer spacer(2 * 72,1 * 72);
 Polygon hexagon(6, 72);
+Polygon pentagon(5, 72);
+Polygon elevengon(11, 72);
+Circle circle(72);
+
 TEST_CASE( "Rectangles"){
 	REQUIRE( rectangle1.draw() == printRectangle1);
 	REQUIRE( rectangle2.draw() == printRectangle2);
@@ -72,4 +97,9 @@ TEST_CASE( "Squares") {
 }
 TEST_CASE( "Polygons") {
 	REQUIRE( hexagon.draw() == printHexagon);
+	REQUIRE( pentagon.draw() == printPentagon);
+	REQUIRE( elevengon.draw() == printPentagon); 
+}
+TEST_CASE( "Circle") {
+	REQUIRE( circle.draw() == printCircle);
 }
