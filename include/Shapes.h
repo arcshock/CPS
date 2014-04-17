@@ -6,7 +6,6 @@ using std::to_string;
 #include <cmath>
 using std::sin;
 using std::cos;
-
 #include <utility>
 using std::pair;
 using std::make_pair;
@@ -19,35 +18,40 @@ class Polygon
 
 	public:
 		Polygon(int numSides, double sideLength):
-			_numSides(numSides / 72.0), _sideLength(sideLength / 72.0)
+			_numSides(numSides), _sideLength(sideLength / 72.0), _degrees(360 / numSides)
 		{
 			setHeight();
 			setWidth();
 			coordinate startingPoint = initializeStartingPoint();
+
+			for (int side = 0; side < _numSides; ++side)
+			{
+				_outputToPostScript += "\t" + to_string(_degrees) + " rotate\n" +
+					"\t" + to_string(_sideLength) + " inch 0 inch rlineto\n";
+			}
+			_outputToPostScript += "\tstroke\n";
+			_outputToPostScript = "gsave\n" + _outputToPostScript + "grestore\n";
 		}
 
 		coordinate initializeStartingPoint()
 		{
 			coordinate startingPoint = make_pair(0.0, _height / 2.0);
 			if (isNumSidesEven()) {
-				startingPoint.first = _sideLength/2.0;
+				startingPoint.first = _sideLength / 2.0;
 			}
 			return startingPoint;
 		}
 
-		void draw()
+		string draw()
 		{
-			for (int ii = 0; ii < _numSides; ++ii) {
-				_outputToPostScript += ""; // PS to draw the lines of side length
-				_outputToPostScript += ""; // PS to rotate by 360/numSides
-			}
-			_outputToPostScript += "Stroke\n";
+
+			return _outputToPostScript;
 		}
 	private:
 
 		bool isNumSidesOdd()
 		{
-			return _numSides%2;
+			return _numSides % 2;
 		}
 		
 		bool isNumSidesEven()
@@ -57,7 +61,7 @@ class Polygon
 		
 		bool sidesDivisibleByFour()
 		{
-			return (_numSides%4==0);
+			return (_numSides % 4 == 0);
 		}
 		bool sidesNotDivisibleByFour()
 		{
@@ -93,6 +97,7 @@ class Polygon
 		string _outputToPostScript;
 		int _numSides;
 		double _sideLength;
+		double _degrees;
 		double _height;
 		double _width;
 };
@@ -100,15 +105,15 @@ class Polygon
 class Spacer
 {
 	public:
-		Spacer(double width, double height)   
+		Spacer(double width, double height): _width(width / 72.), _height(height / 72.)
 		{
 			_outputToPostScript = 
-					"\t" + to_string(width / 2.0) + " inch " + to_string(height / 2.0) +
+					"\t" + to_string(_width / 2.0) + " inch " + to_string(_height / 2.0) +
 					" inch rmoveto\n" + 
-					"\t-" + to_string(width) + " inch 0 inch rlineto\n"
-					"\t0 inch -" + to_string(height) + " inch rlineto\n" +
-					"\t" + to_string(width) + " inch 0 inch rlineto\n"
-					"\t0 inch " + to_string(height) + " inch rlineto\n";
+					"\t-" + to_string(_width) + " inch 0 inch rlineto\n"
+					"\t0 inch -" + to_string(_height) + " inch rlineto\n" +
+					"\t" + to_string(_width) + " inch 0 inch rlineto\n"
+					"\t0 inch " + to_string(_height) + " inch rlineto\n";
 		}
 		virtual string draw()
 		{
@@ -117,6 +122,8 @@ class Spacer
 
 	protected:
 		string _outputToPostScript;
+		double _width;
+		double _height;
 };
 
 class Rectangle : public Spacer
