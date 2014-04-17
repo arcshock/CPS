@@ -39,17 +39,37 @@ string printSpacer =
 	"\t2.000000 inch 0 inch rlineto\n"
 	"\t0 inch 1.000000 inch rlineto\n"
 "grestore\n";
-
+string printHexagon =
+"gsave\n"
+	"\t60.000000 rotate\n"
+	"\t1.000000 inch 0 inch rlineto\n"
+	"\t60.000000 rotate\n"
+	"\t1.000000 inch 0 inch rlineto\n"
+	"\t60.000000 rotate\n"
+	"\t1.000000 inch 0 inch rlineto\n"
+	"\t60.000000 rotate\n"
+	"\t1.000000 inch 0 inch rlineto\n"
+	"\t60.000000 rotate\n"
+	"\t1.000000 inch 0 inch rlineto\n"
+	"\t60.000000 rotate\n"
+	"\t1.000000 inch 0 inch rlineto\n"
+	"\tstroke\n"
+"grestore\n";
 
 
 Rectangle rectangle1(1,2);
 Rectangle rectangle2(4,3);
 Square square(3);
 Spacer spacer(2,1);
-
-TEST_CASE( "shapes"){
+Polygon hexagon(6, 72);
+TEST_CASE( "Rectangles"){
 	REQUIRE( rectangle1.draw() == printRectangle1);
 	REQUIRE( rectangle2.draw() == printRectangle2);
+}
+TEST_CASE( "Squares") {
 	REQUIRE( square.draw() == printSquare);
 	REQUIRE( spacer.draw() == printSpacer);
+}
+TEST_CASE( "Polygons") {
+	REQUIRE( hexagon.draw() == printHexagon);
 }
