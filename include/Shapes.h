@@ -14,6 +14,8 @@ using std::initializer_list;
 #include <fstream>
 using std::ofstream;
 
+
+const double PI = 3.14159265358979;
 enum RotationAngle { LEFT = 90, RIGHT = 270, INVERT = 180 };
 
 class Shape
@@ -123,6 +125,8 @@ class Scaled : public Shape
 	public:
 		Scaled(Shape shape, double xScaleFactor, double yScaleFactor)
 		{
+			_height = shape.getHeight() * yScaleFactor;
+			_width = shape.getWidth() * xScaleFactor;
 			_tempPSText = "\t" + to_string(xScaleFactor) + 
 								  " " + to_string(yScaleFactor) + 
 								  " scale\n" +
@@ -135,10 +139,19 @@ class Rotated : public Shape
 	public:
 		Rotated(Shape shape, RotationAngle angle)
 		{
+			setBoundingBox(shape);
 			_tempPSText = "\t" + to_string(angle) +
 							" rotate\n" +
 							shape.getTempPostScriptText();
 		}
+
+		virtual void setBoundingBox(Shape shape)
+		{
+				if (shape.getHeight() > _height)
+					_height = shape.getHeight();
+				if (shape.getWidth() > _width)
+					_width = shape.getWidth();
+		}	
 };
 
 class Layered : public Shape
@@ -244,20 +257,29 @@ class Star : public Shape
 		Star(int sideLength) 
 		{
 			const double PHI = 1.618034;
+			double inchSideLength = toInches(sideLength);
+			double isocelesLeg = (inchSideLength * PHI);
+			setBoundingBox(inchSideLength, isocelesLeg);
 			_tempPSText = "\t180 rotate\n"  
-				"\t" + to_string(sideLength / 2.0 ) + " inch -" 
-				     + to_string(sideLength * 0.769421) + " inch rmoveto\n"
+				"\t" + to_string(inchSideLength / 2.0 ) + " inch -" 
+				     + to_string(inchSideLength * 0.769421) + " inch rmoveto\n"
 				"\t5 {\n"
 				"\tgsave\n"
-				"\t\t" + to_string(sideLength * PHI) + " inch 0 inch rlineto\n"
+				"\t\t" + to_string(isocelesLeg) + " inch 0 inch rlineto\n"
 				"\t\t144 rotate\n"
-				"\t\t" + to_string(sideLength * PHI) + " inch 0 inch rlineto\n"
+				"\t\t" + to_string(isocelesLeg) + " inch 0 inch rlineto\n"
 				"\t\tstroke\n"
 				"\tgrestore\n"
 				"\t" + to_string(72.0) + " rotate\n"
-				"\t" + to_string(sideLength) + " inch 0 inch rlineto\n" 
+				"\t" + to_string(inchSideLength) + " inch 0 inch rlineto\n" 
 				"\t} repeat\n"
 				"\tstroke\n";
+		}
+		
+		virtual void setBoundingBox(double sideLength, double isocelesLeg)
+		{
+			_width = sideLength + (2 * isocelesLeg);
+			_height = _width * sin(72*PI/180); 
 		}
 };
 #endif /* SHAPES_H */
