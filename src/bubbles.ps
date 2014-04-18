@@ -1,0 +1,43 @@
+%!
+% Testing PS file for bubbles made in a ellipse like shape
+
+/inch {72 mul} def
+
+/drawCircle {
+gsave
+0 0 1.000000 inch 0 360 arc
+	closepath
+	stroke
+grestore
+} def
+
+/parmeter {15} def
+/bubbles {
+gsave
+	100 500 translate
+
+	-1 0 {
+		gsave
+			dup dup
+			.00015 inch mul dup
+			scale 
+			drawCircle
+		grestore
+		dup
+		5 mod 0 eq % see if even
+			{.207 inch sin dup cos 13 mul translate}
+			{3 mod 0 eq
+				{-.19 inch exch sin dup translate}
+				{.5 inch dup cos 5 mul exch sin 3.313 mul translate}
+			ifelse}
+		ifelse
+		
+		
+	} for
+
+grestore
+} def
+
+parmeter bubbles
+
+showpage
