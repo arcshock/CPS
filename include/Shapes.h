@@ -282,4 +282,30 @@ class Star : public Shape
 			_height = _width * sin(72*PI/180); 
 		}
 };
+
+class Colored : public Shape
+{
+	public:
+	Colored(Shape shape, int red, int green, int blue)
+	{
+		string colorizePS = "colorize" + to_string(red) + to_string(green) + to_string(blue);
+		string definePSColor = "/" + colorizePS + " {" + to_string(red) + " " + to_string(green) +
+								" " + to_string(blue) + " setrgbcolor fill} def";
+		
+		_tempPSText = shape.draw();
+		replaceStrokeWithColorize(colorizePS);
+		_tempPSText = definePSColor + "\n\n" + _tempPSText;
+	}
+
+	void replaceStrokeWithColorize(string colorize)
+	{
+		std::size_t foundPoint = _tempPSText.find("stroke"); 
+		while (foundPoint != string::npos)
+		{
+			_tempPSText.replace(foundPoint, 6, colorize);
+			foundPoint = _tempPSText.find("stroke");
+		}
+	}
+};
+
 #endif /* SHAPES_H */

@@ -90,8 +90,9 @@ Horizontal layeredShapes0({sStar, sStar, sStar});
 Horizontal layeredShapes1({sStar, sStar, sStar}); 
 Horizontal layeredShapes2({sStar, sStar, sStar}); 
 Vertical layeredShapes({layeredShapes0, layeredShapes1, layeredShapes2});
+Colored colored( layeredShapes, 0, 1, 1);
 TEST_CASE( "To File" ) {
-	REQUIRE( layeredShapes.textToFile() == "I" );
+	REQUIRE( colored.textToFile() == "I" );
 }
 TEST_CASE( "Rectangles" ) {
 	REQUIRE( rectangle.draw() == outputShape(printRectangle1) );
