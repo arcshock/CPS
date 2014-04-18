@@ -21,6 +21,7 @@ enum RotationAngle { LEFT = 90, RIGHT = 270, INVERT = 180 };
 class Shape
 {
 	public:
+		virtual ~Shape() {}
 		virtual string draw()
 		{
 			return "gsave\n" + _tempPSText + "grestore\n";
@@ -254,15 +255,15 @@ class Horizontal : public Shape
 class Star : public Shape
 {
 	public:
-		Star(int sideLength) 
+		Star(int innerPentagonSideLength) 
 		{
 			const double PHI = 1.618034;
-			double inchSideLength = toInches(sideLength);
-			double isocelesLeg = (inchSideLength * PHI);
-			setBoundingBox(inchSideLength, isocelesLeg);
+			double inchInnerPentagonSideLength = toInches(innerPentagonSideLength);
+			double isocelesLeg = (inchInnerPentagonSideLength * PHI);
+			setBoundingBox(inchInnerPentagonSideLength, isocelesLeg);
 			_tempPSText = "\t180 rotate\n"  
-				"\t" + to_string(inchSideLength / 2.0 ) + " inch -" 
-				     + to_string(inchSideLength * 0.769421) + " inch rmoveto\n"
+				"\t" + to_string(inchInnerPentagonSideLength / 2.0 ) + " inch -" 
+				     + to_string(inchInnerPentagonSideLength * 0.769421) + " inch rmoveto\n"
 				"\t5 {\n"
 				"\tgsave\n"
 				"\t\t" + to_string(isocelesLeg) + " inch 0 inch rlineto\n"
@@ -271,14 +272,14 @@ class Star : public Shape
 				"\t\tstroke\n"
 				"\tgrestore\n"
 				"\t" + to_string(72.0) + " rotate\n"
-				"\t" + to_string(inchSideLength) + " inch 0 inch rlineto\n" 
+				"\t" + to_string(inchInnerPentagonSideLength) + " inch 0 inch rlineto\n" 
 				"\t} repeat\n"
 				"\tstroke\n";
 		}
 		
-		virtual void setBoundingBox(double sideLength, double isocelesLeg)
+		virtual void setBoundingBox(double innerPentagonSideLength, double isocelesLeg)
 		{
-			_width = sideLength + (2 * isocelesLeg);
+			_width = innerPentagonSideLength + (2 * isocelesLeg);
 			_height = _width * sin(72*PI/180); 
 		}
 };

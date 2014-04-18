@@ -79,20 +79,18 @@ Polygon gon8(8, 72);
 Polygon gon3(3,72);
 Circle circle(72);
 Scaled scaledSquare(square, 2, 2);
-Rotated rotatedScaledSquare(scaledSquare, LEFT);
-//Vertical layeredShapes0({square, hexagon, pentagon, gon4, gon3, circle});
-//Vertical layeredShapes1({pentagon, pentagon, pentagon, pentagon, pentagon});
-//Vertical layeredShapes2({hexagon, hexagon, hexagon, hexagon, hexagon});
-//Vertical layeredShapes3({gon4, gon4, gon4, gon4, gon4});
+Rotated rotatedScaledSquare(gon3, LEFT);
 Star star(72);
 Scaled sStar(star, .2, .2);
-Horizontal layeredShapes0({sStar, sStar, sStar}); 
-Horizontal layeredShapes1({sStar, sStar, sStar}); 
-Horizontal layeredShapes2({sStar, sStar, sStar}); 
-Vertical layeredShapes({layeredShapes0, layeredShapes1, layeredShapes2});
-Colored colored( layeredShapes, 0, 1, 1);
+Colored bcolored(square, 0, 0, 1);
+Colored rcolored(gon8, 1, 0, 0);
+Horizontal layeredShapes0({bcolored, hexagon, rcolored}); 
+Horizontal layeredShapes1({circle, bcolored, pentagon}); 
+Horizontal layeredShapes2({rcolored, rotatedScaledSquare, circle}); 
+Vertical layeredShapes({layeredShapes0, layeredShapes1, layeredShapes2, star});
+
 TEST_CASE( "To File" ) {
-	REQUIRE( colored.textToFile() == "I" );
+	REQUIRE( layeredShapes.textToFile() == "I" );
 }
 TEST_CASE( "Rectangles" ) {
 	REQUIRE( rectangle.draw() == outputShape(printRectangle1) );
@@ -114,6 +112,3 @@ TEST_CASE( "Rotated" ) {
 	REQUIRE( rotatedScaledSquare.draw() == outputShape(rotatedPrefix) + 
 											scaledPrefix + printSquare );
 }
-//TEST_CASE( "Layered" ) {
-//	REQUIRE( layeredShapes.draw() == "\n" "gsave\n" + listShapes );
-//}
