@@ -66,7 +66,7 @@ class Polygon : public Shape
 		{
 			coordinate start = initializeStartingPoint();
 			_tempPSText = "\t" + to_string(start.first) + " inch "  
-							  "-" + to_string(start.second) + " inch rmoveto\n";
+						  "-" + to_string(start.second) + " inch rmoveto\n";
 
 			for (int side = 0; side < _numSides; ++side)
 			{
