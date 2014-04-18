@@ -1,4 +1,4 @@
-#ifndef POLYGON_H
+#ifndef POLYGON_h
 #define POLYGON_H
 
 #include "Shapes.h"
@@ -11,28 +11,12 @@ class Polygon : public Shape
 
 	public:
 		Polygon(int numSides, double sideLength):
-			_numSides(numSides), _degrees(360.0 / numSides)
+			_numSides(numSides), _degreesPerSide(360.0 / numSides)
 		{
 			_sideLength = toInches(sideLength);
-			setHeight();
-			setWidth();
-			coordinate startingPoint = initializeStartingPoint();
-
-			_tempPSText = "\t" + to_string(startingPoint.first) + " inch -" + 
-								  to_string(startingPoint.second) + " inch rmoveto\n";
-
-			for (int side = 0; side < _numSides; ++side)
-			{
-				_tempPSText += "\t" + to_string(_degrees) + " rotate\n" +
-					"\t" + to_string(_sideLength) + " inch 0 inch rlineto\n";
-			}
-			_tempPSText += "\tstroke\n";
-		}
-
-		coordinate initializeStartingPoint()
-		{
-			coordinate startingPoint = make_pair(_sideLength / 2.0, _height / 2.0);
-			return startingPoint;
+			updateHeight();
+			updateWidth();
+			updatePSText();
 		}
 
 	private:
@@ -42,21 +26,7 @@ class Polygon : public Shape
 			return _numSides % 2;
 		}
 		
-		bool isNumSidesEven()
-		{
-			return !isNumSidesOdd();
-		}
-		
-		bool sidesDivisibleByFour()
-		{
-			return (_numSides % 4 == 0);
-		}
-		bool sidesNotDivisibleByFour()
-		{
-			return !sidesDivisibleByFour();
-		}
-		
-		void setHeight()
+		void updateHeight()
 		{
 			double angle = PI / _numSides;
 			if (isNumSidesOdd()) {
@@ -68,7 +38,7 @@ class Polygon : public Shape
 
 		}
 
-		void setWidth()
+		void updateWidth()
 		{
 			double angle = PI / _numSides;
 			if (isNumSidesOdd()) {
@@ -82,9 +52,39 @@ class Polygon : public Shape
 			}
 		}
 
+		bool sidesNotDivisibleByFour()
+		{
+			return !sidesDivisibleByFour();
+		}
+
+		bool sidesDivisibleByFour()
+		{
+			return (_numSides % 4 == 0);
+		}
+
+		void updatePSText()
+		{
+			coordinate start = initializeStartingPoint();
+			_tempPSText = "\t" + to_string(start.first) + " inch "  
+							  "-" + to_string(start.second) + " inch rmoveto\n";
+
+			for (int side = 0; side < _numSides; ++side)
+			{
+				_tempPSText += "\t" + to_string(_degreesPerSide) + " rotate\n" +
+					"\t" + to_string(_sideLength) + " inch 0 inch rlineto\n";
+			}
+			_tempPSText += "\tstroke\n";
+		}
+
+		coordinate initializeStartingPoint()
+		{
+			coordinate startingPoint = make_pair(_sideLength / 2.0, _height / 2.0);
+			return startingPoint;
+		}
+
 		int _numSides;
 		double _sideLength;
-		double _degrees;
+		double _degreesPerSide;
 };
 
 #endif /* POLYGON_H */
