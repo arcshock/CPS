@@ -10,106 +10,46 @@ using std::cos;
 using std::pair;
 using std::make_pair;
 
-const double PI = 3.14159265358979;
 
-class Polygon 
+class Shape
 {
-	typedef pair<double, double> coordinate; 
-
 	public:
-		Polygon(int numSides, double sideLength):
-			_numSides(numSides), _sideLength(sideLength / 72.0), _degrees(360 / numSides)
-		{
-			setHeight();
-			setWidth();
-			coordinate startingPoint = initializeStartingPoint();
-			_outputToPostScript = "\t" + to_string(startingPoint.first) + " inch " + 
-								  to_string(startingPoint.second) + " inch rmoveto\n";
-
-			for (int side = 0; side < _numSides; ++side)
-			{
-				_outputToPostScript += "\t" + to_string(_degrees) + " rotate\n" +
-					"\t" + to_string(_sideLength) + " inch 0 inch rlineto\n";
-			}
-			_outputToPostScript += "\tstroke\n";
-			_outputToPostScript = "gsave\n" + _outputToPostScript + "grestore\n";
-		}
-
-		coordinate initializeStartingPoint()
-		{
-			coordinate startingPoint = make_pair(0.0, _height / 2.0);
-			if (isNumSidesEven()) {
-				startingPoint.first = _sideLength / 2.0;
-			}
-			return startingPoint;
-		}
-
 		string draw()
 		{
-
-			return _outputToPostScript;
+			return "gsave\n" + _tempPSText + "grestore\n";
 		}
-	private:
 
-		bool isNumSidesOdd()
+		double toInches(int value)
 		{
-			return _numSides % 2;
+			return value / 72.0;
 		}
 		
-		bool isNumSidesEven()
+		void setBoundingBox(int height, int width)
 		{
-			return !isNumSidesOdd();
-		}
-		
-		bool sidesDivisibleByFour()
-		{
-			return (_numSides % 4 == 0);
-		}
-		bool sidesNotDivisibleByFour()
-		{
-			return !sidesDivisibleByFour();
-		}
-		
-		void setHeight()
-		{
-			double angle = PI / _numSides;
-			if (isNumSidesOdd()) {
-				_height = _sideLength * (1 + cos(angle)) / (2 * sin(angle));
-			}
-			else {
-				_height = _sideLength * cos(angle) / sin(angle);
-			}
-
+			_height = toInches(height);
+			_width = toInches(width);
 		}
 
-		void setWidth()
+		string getTempPostScriptText()
 		{
-			double angle = PI / _numSides;
-			if (isNumSidesOdd()) {
-				_width = (_sideLength * sin(angle * (_numSides - 1) / 2))  / sin(angle);
-			}
-			else {
-				_width = _sideLength / sin(angle);
-				if (sidesNotDivisibleByFour()) {
-					_width *= cos(angle);
-				}
-			}
+			return _tempPSText;
 		}
 
-		string _outputToPostScript;
-		int _numSides;
-		double _sideLength;
-		double _degrees;
+	protected:
 		double _height;
 		double _width;
+		string _tempPSText;
 };
 
-class Spacer
+class Spacer : public Shape
 {
 	public:
-		Spacer(double width, double height): _width(width / 72.), _height(height / 72.)
+		Spacer(double width, double height)
 		{
-			_outputToPostScript = 
+			_width = toInches(width);
+			_height = toInches(height);
+
+			_tempPSText = 
 					"\t" + to_string(_width / 2.0) + " inch " + to_string(_height / 2.0) +
 					" inch rmoveto\n" + 
 					"\t-" + to_string(_width) + " inch 0 inch rlineto\n"
@@ -117,15 +57,13 @@ class Spacer
 					"\t" + to_string(_width) + " inch 0 inch rlineto\n"
 					"\t0 inch " + to_string(_height) + " inch rlineto\n";
 		}
+
 		virtual string draw()
 		{
-			return "gsave\n" + _outputToPostScript + "grestore\n";
+			return "gsave\n" + _tempPSText + "grestore\n";
 		}
 
 	protected:
-		string _outputToPostScript;
-		double _width;
-		double _height;
 };
 
 class Rectangle : public Spacer
@@ -133,7 +71,7 @@ class Rectangle : public Spacer
 	public:
 		Rectangle(double width, double height) : Spacer(width, height) 
 		{
-			_outputToPostScript += "\tstroke\n";
+			_tempPSText += "\tstroke\n";
 		}
 
 };
@@ -144,25 +82,50 @@ class Square : public Rectangle
 		Square(double side) : Rectangle(side, side) {}
 };
 
-class Circle
+class Circle : public Shape
 {
 	public:
 		Circle(double radius) : _radius(radius / 72.)
 		{
-			_outputToPostScript = "\t0 0 " + to_string(_radius) + " inch 0 360 arc\n"
+			setBoundingBox(radius * 2, radius * 2);
+			_tempPSText = "\t0 0 " + to_string(_radius) + " inch 0 360 arc\n"
 				"\tclosepath\n"
 				"\tstroke\n";
 		}			
 
-		string draw()
-		{
-			return "gsave\n" + _outputToPostScript + "grestore\n";
-		}
-
 	private: 
 		double _radius;
-		string _outputToPostScript;
 
 };
-#endif
 
+
+class Scaled : public Shape
+{
+	public:
+		Scaled(Shape shape, double xScaleFactor, double yScaleFactor)
+		{
+			_tempPSText = "\t" + to_string(xScaleFactor) + 
+								  " " + to_string(yScaleFactor) + 
+								  " scale\n" +
+								  shape.getTempPostScriptText();
+		}
+};
+
+class Rotated : public Shape
+{
+	public:
+		Rotated(Shape shape, double angle)
+		{
+			_tempPSText = "\t" + to_string(angle) +
+							"rotate" +
+							shape.getTempPostScriptText();
+		}
+};
+
+/*
+class Layered : public Shape
+{
+	public:
+		Layered(Shape shape ...)
+};*/
+#endif /* SHAPES_H */
