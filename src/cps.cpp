@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "Shapes.h"
+#include "Polygon.h"
 #include <string>
 using std::string;
 
@@ -78,6 +79,29 @@ string printCircle =
 	"\tstroke\n"
 "grestore\n";
 
+string printDoubleScaledSquare =
+"gsave\n"
+	"\t2.000000 2.000000 scale\n"
+	"\t1.500000 inch 1.500000 inch rmoveto\n"
+	"\t-3.000000 inch 0 inch rlineto\n"
+	"\t0 inch -3.000000 inch rlineto\n"
+	"\t3.000000 inch 0 inch rlineto\n"
+	"\t0 inch 3.000000 inch rlineto\n"
+	"\tstroke\n"
+"grestore\n";
+
+string printRotatedSquare =
+"gsave\n"
+	"\t60.000000 rotate\n"
+	"\t1.500000 inch 1.500000 inch rmoveto\n"
+	"\t-3.000000 inch 0 inch rlineto\n"
+	"\t0 inch -3.000000 inch rlineto\n"
+	"\t3.000000 inch 0 inch rlineto\n"
+	"\t0 inch 3.000000 inch rlineto\n"
+	"\tstroke\n"
+"grestore\n";
+
+
 Rectangle rectangle1(1 * 72,2 * 72);
 Rectangle rectangle2(4 * 72 ,3 * 72);
 Square square(3 * 72);
@@ -86,20 +110,27 @@ Polygon hexagon(6, 72);
 Polygon pentagon(5, 72);
 Polygon elevengon(11, 72);
 Circle circle(72);
+Scaled doubleSquare(square, 2, 2);
+Rotated rotatedSquare(doubleSquare, 60.0);
 
-TEST_CASE( "Rectangles"){
-	REQUIRE( rectangle1.draw() == printRectangle1);
-	REQUIRE( rectangle2.draw() == printRectangle2);
+TEST_CASE( "Rectangles" ) {
+	REQUIRE( rectangle1.draw() == printRectangle1 );
+	REQUIRE( rectangle2.draw() == printRectangle2 );
 }
-TEST_CASE( "Squares") {
-	REQUIRE( square.draw() == printSquare);
-	REQUIRE( spacer.draw() == printSpacer);
+TEST_CASE( "Squares" ) {
+	REQUIRE( square.draw() == printSquare );
+	REQUIRE( spacer.draw() == printSpacer );
 }
-TEST_CASE( "Polygons") {
-	REQUIRE( hexagon.draw() == printHexagon);
-	REQUIRE( pentagon.draw() == printPentagon);
-	REQUIRE( elevengon.draw() == printPentagon); 
+TEST_CASE( "Polygons" ) {
+	REQUIRE( hexagon.draw() == printHexagon );
+	REQUIRE( pentagon.draw() == printPentagon );
 }
-TEST_CASE( "Circle") {
-	REQUIRE( circle.draw() == printCircle);
+TEST_CASE( "Circle" ) {
+	REQUIRE( circle.draw() == printCircle );
+}
+TEST_CASE( "Scaled" ) {
+	REQUIRE( doubleSquare.draw() == printDoubleScaledSquare );
+}
+TEST_CASE( "Rotated" ) {
+	REQUIRE( rotatedSquare.draw() == printDoubleScaledSquare );
 }
