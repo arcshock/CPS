@@ -18,7 +18,7 @@ class Polygon : public Shape
 			setWidth();
 			coordinate startingPoint = initializeStartingPoint();
 
-			_tempPSText = "\t" + to_string(startingPoint.first) + " inch " + 
+			_tempPSText = "\t" + to_string(startingPoint.first) + " inch -" + 
 								  to_string(startingPoint.second) + " inch rmoveto\n";
 
 			for (int side = 0; side < _numSides; ++side)
@@ -31,10 +31,7 @@ class Polygon : public Shape
 
 		coordinate initializeStartingPoint()
 		{
-			coordinate startingPoint = make_pair(0.0, _height / 2.0);
-			if (isNumSidesEven()) {
-				startingPoint.first = _sideLength / 2.0;
-			}
+			coordinate startingPoint = make_pair(_sideLength / 2.0, _height / 2.0);
 			return startingPoint;
 		}
 

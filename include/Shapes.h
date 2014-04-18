@@ -11,6 +11,8 @@ using std::pair;
 using std::make_pair;
 #include <initializer_list>
 using std::initializer_list;
+#include <fstream>
+using std::ofstream;
 
 enum RotationAngle { LEFT = 90, RIGHT = 270, INVERT = 180 };
 
@@ -36,6 +38,16 @@ class Shape
 		string getTempPostScriptText()
 		{
 			return _tempPSText;
+		}
+
+		string textToFile()
+		{
+			ofstream outputPSFile;
+			outputPSFile.open("testing.ps");
+			outputPSFile << "%!\n\n/inch { 72 mul } def\n3 inch 3 inch moveto\n\n" << draw() << "\n\nshowpage";
+			outputPSFile.close();
+
+			return "I";
 		}
 
 	protected:
@@ -91,9 +103,10 @@ class Circle : public Shape
 		Circle(double radius) : _radius(radius / 72.)
 		{
 			setBoundingBox(radius * 2, radius * 2);
-			_tempPSText = "\t0 0 " + to_string(_radius) + " inch 0 360 arc\n"
-				"\tclosepath\n"
-				"\tstroke\n";
+			_tempPSText = "\tcurrentpoint dup\n"
+						"\t" + to_string(_radius) + " inch 0 inch rmoveto\n"
+						"\t" + to_string(_radius) + " inch 0 360 arc\n"
+						"\tstroke\n";
 		}			
 
 	private: 
@@ -136,7 +149,7 @@ class Layered : public Shape
 			}
 		}
 
-		virtual string draw()
+		string draw() 
 		{
 			return  _tempPSText;
 		}
