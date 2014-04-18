@@ -5,6 +5,12 @@
 #include <string>
 using std::string;
 
+
+string outputShape(string shape)
+{
+	return "gsave\n" + shape;
+}
+
 string printRectangle1 = 
 	"\t0.500000 inch 1.000000 inch rmoveto\n"
 	"\t-1.000000 inch 0 inch rlineto\n"
@@ -72,40 +78,46 @@ string printCircle =
 	"\tstroke\n"
 "grestore\n";
 
+
+
 string scaledPrefix = "\t2.000000 2.000000 scale\n";
-
-string rotatedPrefix = "\t60.000000 rotate\n";
-
+string rotatedPrefix = "\t90 rotate\n";
+string listShapes = printSquare + "\n\n" + outputShape(printCircle) + "\n\n" +
+						outputShape(printHexagon) + "\n";	
 
 Rectangle rectangle1(1 * 72,2 * 72);
-Rectangle rectangle2(4 * 72 ,3 * 72);
 Square square(3 * 72);
 Spacer spacer(2 * 72,1 * 72);
 Polygon hexagon(6, 72);
 Polygon pentagon(5, 72);
-Polygon elevengon(11, 72);
 Circle circle(72);
 Scaled scaledSquare(square, 2, 2);
-Rotated rotatedScaledSquare(scaledSquare, 60.0);
+Rotated rotatedScaledSquare(scaledSquare, LEFT);
+Layered layeredShapes({square, circle, hexagon});
+
+
 
 TEST_CASE( "Rectangles" ) {
-	REQUIRE( rectangle1.draw() == "gsave\n" + printRectangle1 );
-	REQUIRE( rectangle2.draw() == "gsave\n" + printRectangle2 );
+	REQUIRE( rectangle1.draw() == outputShape(printRectangle1) );
+	REQUIRE( spacer.draw() == outputShape(printSpacer) );
 }
 TEST_CASE( "Squares" ) {
-	REQUIRE( square.draw() == "gsave\n" + printSquare );
-	REQUIRE( spacer.draw() == "gsave\n" + printSpacer );
+	REQUIRE( square.draw() == outputShape(printSquare) );
 }
 TEST_CASE( "Polygons" ) {
-	REQUIRE( hexagon.draw() == "gsave\n" + printHexagon );
-	REQUIRE( pentagon.draw() == "gsave\n" + printPentagon );
+	REQUIRE( hexagon.draw() == outputShape(printHexagon) );
+	REQUIRE( pentagon.draw() == outputShape(printPentagon) );
 }
 TEST_CASE( "Circle" ) {
-	REQUIRE( circle.draw() =="gsave\n" +  printCircle );
+	REQUIRE( circle.draw() == outputShape(printCircle) );
 }
 TEST_CASE( "Scaled" ) {
-	REQUIRE( scaledSquare.draw() == "gsave\n" + scaledPrefix + printSquare );
+	REQUIRE( scaledSquare.draw() == outputShape(scaledPrefix) + printSquare );
 }
 TEST_CASE( "Rotated" ) {
-	REQUIRE( rotatedScaledSquare.draw() == "gsave\n" + rotatedPrefix + scaledPrefix + printSquare );
+	REQUIRE( rotatedScaledSquare.draw() == outputShape(rotatedPrefix) + 
+											scaledPrefix + printSquare );
+}
+TEST_CASE( "Layered" ) {
+	REQUIRE( layeredShapes.draw() == "\n" "gsave\n" + listShapes );
 }

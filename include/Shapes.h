@@ -9,7 +9,10 @@ using std::cos;
 #include <utility>
 using std::pair;
 using std::make_pair;
+#include <initializer_list>
+using std::initializer_list;
 
+enum RotationAngle { LEFT = 90, RIGHT = 270, INVERT = 180 };
 
 class Shape
 {
@@ -114,7 +117,7 @@ class Scaled : public Shape
 class Rotated : public Shape
 {
 	public:
-		Rotated(Shape shape, double angle)
+		Rotated(Shape shape, RotationAngle angle)
 		{
 			_tempPSText = "\t" + to_string(angle) +
 							" rotate\n" +
@@ -122,10 +125,23 @@ class Rotated : public Shape
 		}
 };
 
-/*
 class Layered : public Shape
 {
 	public:
-		Layered(Shape shape ...)
-};*/
+		Layered(initializer_list<Shape> shapes)
+		{
+			for (auto shape : shapes)
+			{	
+				_tempPSText += "\n" + shape.draw() + "\n";
+			}
+		}
+
+		virtual string draw()
+		{
+			return  _tempPSText;
+		}
+
+
+};
+
 #endif /* SHAPES_H */
