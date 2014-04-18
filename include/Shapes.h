@@ -117,7 +117,7 @@ class Rotated : public Shape
 		Rotated(Shape shape, double angle)
 		{
 			_tempPSText = "\t" + to_string(angle) +
-							"rotate" +
+							" rotate\n" +
 							shape.getTempPostScriptText();
 		}
 };
