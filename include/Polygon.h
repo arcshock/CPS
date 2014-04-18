@@ -11,7 +11,7 @@ class Polygon : public Shape
 
 	public:
 		Polygon(int numSides, double sideLength):
-			_numSides(numSides), _degrees(360 / numSides)
+			_numSides(numSides), _degrees(360.0 / numSides)
 		{
 			_sideLength = toInches(sideLength);
 			setHeight();

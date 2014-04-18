@@ -65,9 +65,8 @@ string printPentagon =
 	"\tstroke\n"
 "grestore\n";
 string printCircle =
-	"\tcurrentpoint dup\n"
-	"\t1.000000 inch 0 inch rmoveto\n"
-	"\t1.000000 inch 0 360 arc\n"
+	"\tcurrentpoint 1.000000 inch add moveto\n"
+	"\tcurrentpoint 1.000000 inch sub 1.000000 inch -270 360 arc\n"
 	"\tstroke\n"
 "grestore\n";
 
@@ -76,23 +75,17 @@ string printCircle =
 string scaledPrefix = "\t2.000000 2.000000 scale\n";
 string rotatedPrefix = "\t90 rotate\n";
 string listShapes = printSquare + "\n\n" + outputShape(printCircle) + "\n\n" +
-						outputShape(printHexagon) + "\n";	
+						outputShape(printHexagon) + "\n\n" + outputShape(printPentagon) + "\n";
 
 Rectangle rectangle(1 * 72,2 * 72);
 Square square(3 * 72);
 Spacer spacer(2 * 72,1 * 72);
 Polygon hexagon(6, 72);
 Polygon pentagon(5, 72);
-Polygon elvengon(11, 72);
-Polygon gon9(9, 72);
-Polygon triangle(3, 72);
-Polygon gon18(18, 72);
 Circle circle(72);
 Scaled scaledSquare(square, 2, 2);
 Rotated rotatedScaledSquare(scaledSquare, LEFT);
-Layered layeredShapes({square, circle, hexagon, pentagon, elvengon,gon9,triangle,gon18});
-
-
+Layered layeredShapes({square, circle, hexagon, pentagon });
 
 
 TEST_CASE( "To File" ) {

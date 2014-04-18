@@ -19,7 +19,7 @@ enum RotationAngle { LEFT = 90, RIGHT = 270, INVERT = 180 };
 class Shape
 {
 	public:
-		string draw()
+		virtual string draw()
 		{
 			return "gsave\n" + _tempPSText + "grestore\n";
 		}
@@ -44,7 +44,8 @@ class Shape
 		{
 			ofstream outputPSFile;
 			outputPSFile.open("testing.ps");
-			outputPSFile << "%!\n\n/inch { 72 mul } def\n3 inch 3 inch moveto\n\n" << draw() << "\n\nshowpage";
+			outputPSFile << "%!\n/inch { 72 mul } def\n3 inch 3 inch moveto\n" << draw() 
+						 << "\n\nshowpage";
 			outputPSFile.close();
 
 			return "I";
@@ -103,9 +104,9 @@ class Circle : public Shape
 		Circle(double radius) : _radius(radius / 72.)
 		{
 			setBoundingBox(radius * 2, radius * 2);
-			_tempPSText = "\tcurrentpoint dup\n"
-						"\t" + to_string(_radius) + " inch 0 inch rmoveto\n"
-						"\t" + to_string(_radius) + " inch 0 360 arc\n"
+			_tempPSText = "\tcurrentpoint " + to_string(_radius) + " inch add moveto\n"
+						"\tcurrentpoint " + to_string(_radius) + " inch sub " +
+						to_string(_radius) + " inch -270 360 arc\n"
 						"\tstroke\n";
 		}			
 
@@ -149,7 +150,7 @@ class Layered : public Shape
 			}
 		}
 
-		string draw() 
+		virtual string draw() override
 		{
 			return  _tempPSText;
 		}
