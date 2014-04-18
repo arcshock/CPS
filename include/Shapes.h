@@ -237,4 +237,27 @@ class Horizontal : public Shape
 		}	
 
 };
+
+class Star : public Shape
+{
+	public:
+		Star(int sideLength) 
+		{
+			const double PHI = 1.618034;
+			_tempPSText = "\t180 rotate\n"  
+				"\t" + to_string(sideLength / 2.0 ) + " inch -" 
+				     + to_string(sideLength * 0.769421) + " inch rmoveto\n"
+				"\t5 {\n"
+				"\tgsave\n"
+				"\t\t" + to_string(sideLength * PHI) + " inch 0 inch rlineto\n"
+				"\t\t144 rotate\n"
+				"\t\t" + to_string(sideLength * PHI) + " inch 0 inch rlineto\n"
+				"\t\tstroke\n"
+				"\tgrestore\n"
+				"\t" + to_string(72.0) + " rotate\n"
+				"\t" + to_string(sideLength) + " inch 0 inch rlineto\n" 
+				"\t} repeat\n"
+				"\tstroke\n";
+		}
+};
 #endif /* SHAPES_H */
