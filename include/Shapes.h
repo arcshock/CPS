@@ -51,6 +51,16 @@ class Shape
 			return "I";
 		}
 
+		double getHeight()
+		{
+			return _height;
+		}
+	
+		double getWidth()
+		{
+			return _width;
+		}	
+
 	protected:
 		double _height;
 		double _width;
@@ -64,22 +74,7 @@ class Spacer : public Shape
 		{
 			_width = toInches(width);
 			_height = toInches(height);
-
-			_tempPSText = 
-					"\t" + to_string(_width / 2.0) + " inch " + to_string(_height / 2.0) +
-					" inch rmoveto\n" + 
-					"\t-" + to_string(_width) + " inch 0 inch rlineto\n"
-					"\t0 inch -" + to_string(_height) + " inch rlineto\n" +
-					"\t" + to_string(_width) + " inch 0 inch rlineto\n"
-					"\t0 inch " + to_string(_height) + " inch rlineto\n";
 		}
-
-		virtual string draw()
-		{
-			return "gsave\n" + _tempPSText + "grestore\n";
-		}
-
-	protected:
 };
 
 class Rectangle : public Spacer
@@ -87,7 +82,14 @@ class Rectangle : public Spacer
 	public:
 		Rectangle(double width, double height) : Spacer(width, height) 
 		{
-			_tempPSText += "\tstroke\n";
+			_tempPSText = 
+					"\t" + to_string(_width / 2.0) + " inch " + to_string(_height / 2.0) +
+					" inch rmoveto\n" + 
+					"\t-" + to_string(_width) + " inch 0 inch rlineto\n"
+					"\t0 inch -" + to_string(_height) + " inch rlineto\n" +
+					"\t" + to_string(_width) + " inch 0 inch rlineto\n"
+					"\t0 inch " + to_string(_height) + " inch rlineto\n"
+					"\tstroke\n";
 		}
 
 };
@@ -144,18 +146,95 @@ class Layered : public Shape
 	public:
 		Layered(initializer_list<Shape> shapes)
 		{
+			_height = 0;
+		 	_width = 0;
+
 			for (auto shape : shapes)
 			{	
-				_tempPSText += "\n" + shape.draw() + "\n";
+				setBoundingBox(shape);
+				drawConsecutiveShapes(shape);
 			}
+		}
+
+		virtual void setBoundingBox(Shape shape)
+		{
+				if (shape.getHeight() > _height)
+					_height = shape.getHeight();
+				if (shape.getWidth() > _width)
+					_width = shape.getWidth();
+		}	
+
+		virtual void drawConsecutiveShapes(Shape shape)
+		{
+			_tempPSText += "\n" + shape.draw() + "\n";
 		}
 
 		virtual string draw() override
 		{
 			return  _tempPSText;
 		}
-
-
 };
 
+class Vertical : public Shape
+{
+	public:
+		Vertical(initializer_list<Shape> shapes)
+		{
+			_height = 0;
+		 	_width = 0;
+
+			for (auto shape : shapes)
+			{	
+				setBoundingBox(shape);
+				drawConsecutiveShapes(shape);
+			}
+		}
+
+	protected:
+		virtual void setBoundingBox(Shape shape)
+		{
+				if (shape.getWidth() > _width)
+					_width = shape.getWidth();
+				_height += shape.getHeight();
+		}	
+
+		virtual void drawConsecutiveShapes(Shape shape)
+		{
+			_tempPSText += "0 " + to_string(shape.getHeight() / 2) + " inch rmoveto\n" + 
+						shape.draw() + "\n\n0 " +  to_string(shape.getHeight() / 2) + 
+						" inch rmoveto\n";
+		}
+};
+
+class Horizontal : public Shape
+{
+	public:
+		Horizontal(initializer_list<Shape> shapes)
+		{
+			_height = 0;
+		 	_width = 0;
+
+			for (auto shape : shapes)
+			{	
+				setBoundingBox(shape);
+				drawConsecutiveShapes(shape);
+			}
+		}
+	
+	protected:
+		virtual void setBoundingBox(Shape shape)
+		{
+				if (shape.getHeight() > _height)
+					_height = shape.getHeight();
+				_width += shape.getWidth();
+		}	
+
+		virtual void drawConsecutiveShapes(Shape shape)
+		{
+			_tempPSText += to_string(shape.getWidth() / 2) + " inch 0 rmoveto\n" + 
+						shape.draw() + "\n\n" +  to_string(shape.getWidth() / 2) + 
+						" inch 0 rmoveto\n";
+		}	
+
+};
 #endif /* SHAPES_H */

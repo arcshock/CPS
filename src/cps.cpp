@@ -27,13 +27,6 @@ string printSquare =
 	"\t0 inch 3.000000 inch rlineto\n"
 	"\tstroke\n"
 "grestore\n";
-string printSpacer = 
-	"\t1.000000 inch 0.500000 inch rmoveto\n"
-	"\t-2.000000 inch 0 inch rlineto\n"
-	"\t0 inch -1.000000 inch rlineto\n"
-	"\t2.000000 inch 0 inch rlineto\n"
-	"\t0 inch 1.000000 inch rlineto\n"
-"grestore\n";
 string printHexagon =
 	"\t0.500000 inch -0.866025 inch rmoveto\n"
 	"\t60.000000 rotate\n"
@@ -79,13 +72,12 @@ string listShapes = printSquare + "\n\n" + outputShape(printCircle) + "\n\n" +
 
 Rectangle rectangle(1 * 72,2 * 72);
 Square square(3 * 72);
-Spacer spacer(2 * 72,1 * 72);
 Polygon hexagon(6, 72);
 Polygon pentagon(5, 72);
 Circle circle(72);
 Scaled scaledSquare(square, 2, 2);
 Rotated rotatedScaledSquare(scaledSquare, LEFT);
-Layered layeredShapes({square, circle, hexagon, pentagon });
+Horizontal layeredShapes({square, circle, hexagon, pentagon });
 
 
 TEST_CASE( "To File" ) {
@@ -93,7 +85,6 @@ TEST_CASE( "To File" ) {
 }
 TEST_CASE( "Rectangles" ) {
 	REQUIRE( rectangle.draw() == outputShape(printRectangle1) );
-	REQUIRE( spacer.draw() == outputShape(printSpacer) );
 }
 TEST_CASE( "Squares" ) {
 	REQUIRE( square.draw() == outputShape(printSquare) );
