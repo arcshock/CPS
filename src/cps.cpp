@@ -74,12 +74,18 @@ Rectangle rectangle(1 * 72,2 * 72);
 Square square(3 * 72);
 Polygon hexagon(6, 72);
 Polygon pentagon(5, 72);
+Polygon gon4(4, 72);
+Polygon gon8(8, 72);
+Polygon gon3(3,72);
 Circle circle(72);
 Scaled scaledSquare(square, 2, 2);
 Rotated rotatedScaledSquare(scaledSquare, LEFT);
-Horizontal layeredShapes({square, circle, hexagon, pentagon });
+Vertical layeredShapes0({square, hexagon, pentagon, gon4, gon3, circle});
+Vertical layeredShapes1({pentagon, pentagon, pentagon, pentagon, pentagon});
+Vertical layeredShapes2({hexagon, hexagon, hexagon, hexagon, hexagon});
+Vertical layeredShapes3({gon4, gon4, gon4, gon4, gon4});
 
-
+Horizontal layeredShapes({layeredShapes0, layeredShapes1, layeredShapes2, layeredShapes3}); 
 TEST_CASE( "To File" ) {
 	REQUIRE( layeredShapes.textToFile() == "I" );
 }

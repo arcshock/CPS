@@ -1,4 +1,4 @@
-#ifndef POLYGON_h
+#ifndef POLYGON_H
 #define POLYGON_H
 
 #include "Shapes.h"
@@ -46,7 +46,7 @@ class Polygon : public Shape
 			}
 			else {
 				_width = _sideLength / sin(angle);
-				if (sidesNotDivisibleByFour()) {
+				if (sidesDivisibleByFour()) {
 					_width *= cos(angle);
 				}
 			}
