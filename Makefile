@@ -12,11 +12,10 @@ CFLAGS_DEBUG = -g -Wall
 
 INCLUDE = -I ./include/
 SRC = ./src/*.cpp
+TEST = ./testing/*.cpp
 
 # LFLAGS
 # LIBS
-
-#TEST = ./src/testSuites/*
 
 #CATCH = ./test/*.cpp
 
@@ -37,20 +36,20 @@ build:
 run:
 	./build/debug/cps-build.out
 
+#- test: runs testing suit
+test:
+	$(CC) $(CFLAGS) $(INCLUDE) $(TEST) -o ./build/debug/cps-test.out
+	./build/debug/cps-test.out
 
 #- exe: compiles and runs project.
 exe: mkbuild
 	$(CC) $(CFLAGS) $(INCLUDE) $(SRC)  -o ./build/debug/cps-build.out
-	./build/debug/cps-build.out
+	@./build/debug/cps-build.out
 
 
 #- debug compiles project with debugging symbols.
 debug: mkbuild
 	$(CC) $(CFLAGS) $(CFLAGS_DEBUG) $(INCLUDE) $(SRC) -o ./build/debug/cps-debug.out
-
-
-# TODO: Define the tests for the project. Maybe have a number of different levels?
-#test:
 
 
 #- mkbuild: creates the build directory structure.
