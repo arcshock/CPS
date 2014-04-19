@@ -36,12 +36,45 @@ int main(int argc, char* args[])
 			Circle c(radius);
 			shapes.push_back(c);
 			
+		} else if (strcmp(args[ii], "square") == 0) {
+
+			double side = atoi(args[++ii]);
+
+			Square s(side);
+			shapes.push_back(s);
+
+		} else if (strcmp(args[ii], "star") == 0) {
+			
+			int sideLength = atoi(args[++ii]);
+
+			Star s(sideLength);
+			shapes.push_back(s);
+
+		} else if (strcmp(args[ii], "rectangle") == 0) {
+			
+			double width = atoi(args[++ii]);
+			double height = atoi(args[++ii]);
+
+			Rectangle r(width, height);
+			shapes.push_back(r);
+
+		} else if (strcmp(args[ii], "spacer") == 0) {
+
+			double width = atoi(args[++ii]);
+			double height = atoi(args[++ii]);
+
+			Spacer c(width, height);
+			shapes.push_back(c);
+
 		} else {
+
 			cout << "BAD ARG" << endl;
+
 		}
 	}
 
 	for ( auto i : shapes) {
 		i.textToFile();
 	}
+
 }
