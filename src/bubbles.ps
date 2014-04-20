@@ -11,10 +11,28 @@ gsave
 grestore
 } def
 
-/parmeter {15} def
+/newBubbles {
+	0 1 20 {
+		/index { dup dup pop } def
+		% setup and draw current circle
+		gsave
+			index .01 mul % multiply index by .1
+			dup scale % scale the preceeding circle by index * .1
+			drawCircle
+		grestore
+
+		/alternatingSign {1 index exp} def
+
+		alternatingSign index mul % alternating x value
+		index 			  % y value
+		translate
+
+
+	} for
+} def
+/parmeter {25} def
 /bubbles {
 gsave
-	100 500 translate
 
 	-1 0 {
 		gsave
@@ -38,6 +56,8 @@ gsave
 grestore
 } def
 
-parmeter bubbles
+100 500 translate
+%parmeter bubbles
+newBubbles
 
 showpage

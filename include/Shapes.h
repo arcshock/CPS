@@ -13,7 +13,7 @@ using std::make_pair;
 using std::initializer_list;
 #include <fstream>
 using std::ofstream;
-
+using std::ios;
 
 const double PI = 3.14159265358979;
 enum RotationAngle { LEFT = 90, RIGHT = 270, INVERT = 180 };
@@ -46,7 +46,7 @@ class Shape
 		string textToFile()
 		{
 			ofstream outputPSFile;
-			outputPSFile.open("testing.ps");
+			outputPSFile.open("testing.ps", ios::app);
 			outputPSFile << "%!\n/inch { 72 mul } def\n3 inch 3 inch moveto\n" << draw() 
 						 << "\n\nshowpage";
 			outputPSFile.close();
