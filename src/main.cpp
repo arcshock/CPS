@@ -2,9 +2,9 @@
 #include <vector>
 using std::vector;
 
-
 #include <iostream>
 using std::cout;
+using std::cin;
 using std::endl;
 
 #include "Shapes.h"
@@ -12,7 +12,7 @@ using std::endl;
 
 
 vector<Shape> handleArgs(int numberOfArgs, char* args[]);
-
+void interactive(vector<Shape>& shapes);
 
 int main(int argc, char* args[])
 {
@@ -25,7 +25,6 @@ int main(int argc, char* args[])
 	}
 
 }
-
 
 vector<Shape> handleArgs(int numberOfArgs, char* args[])
 {
@@ -77,6 +76,10 @@ vector<Shape> handleArgs(int numberOfArgs, char* args[])
 			Spacer c(width, height);
 			shapes.push_back(c);
 
+		} else if (strcmp(args[ii], "-I") == 0) {
+
+			interactive(shapes);
+
 		} else {
 
 			cout << "BAD ARG" << endl;
@@ -85,4 +88,9 @@ vector<Shape> handleArgs(int numberOfArgs, char* args[])
 	}
 
 	return shapes;
+}
+
+void interactive(vector<Shape>& shapes)
+{
+	cout << "Welcome to the C++ to PostScript Library" << endl;
 }
