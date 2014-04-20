@@ -10,17 +10,28 @@ using std::endl;
 #include "Shapes.h"
 #include "Polygon.h"
 
+
+vector<Shape> handleArgs(int numberOfArgs, char* args[]);
+
+
 int main(int argc, char* args[])
 {
 	string programName = args[0];
 
-	cout << args[0] << endl;
-	cout << args[1] << endl;
-	cout << args[2] << endl;
-	
+	vector<Shape> shapes = handleArgs(argc, args);
+
+	for ( auto i : shapes) {
+		i.textToFile();
+	}
+
+}
+
+
+vector<Shape> handleArgs(int numberOfArgs, char* args[])
+{
 	vector<Shape> shapes;
 
-	for (int ii = 1; ii < argc; ++ii) {
+	for (int ii = 1; ii < numberOfArgs; ++ii) {
 		if (strcmp(args[ii], "polygon") == 0) {
 			
 			int numSides = atoi(args[++ii]);
@@ -73,8 +84,5 @@ int main(int argc, char* args[])
 		}
 	}
 
-	for ( auto i : shapes) {
-		i.textToFile();
-	}
-
+	return shapes;
 }
