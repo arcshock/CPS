@@ -2,6 +2,9 @@
 #include <vector>
 using std::vector;
 
+#include <unordered_map>
+using std::unordered_map;
+
 #include <iostream>
 using std::cout;
 using std::cin;
@@ -9,6 +12,19 @@ using std::endl;
 
 #include "Shapes.h"
 #include "Polygon.h"
+
+#include <ncurses.h>
+
+void printMenu(WINDOW * menuWindow, int highlight);
+vector<char *> choices = { "Draw a shape",
+				   "Specify output file",
+				   "randomness",
+				   "About",
+				   "Exit" };
+
+int startx = 0;
+int starty = 0;
+
 
 
 vector<Shape> handleArgs(int numberOfArgs, char* args[]);
@@ -92,5 +108,95 @@ vector<Shape> handleArgs(int numberOfArgs, char* args[])
 
 void interactive(vector<Shape>& shapes)
 {
-	cout << "Welcome to the C++ to PostScript Library" << endl;
+	int userInputCharacter = 0;
+	int highlight = 1;
+	const int WIDTH = 30;
+	const int HEIGHT = 10;
+	int choice = 0;
+	int c = 0;
+	WINDOW *menuWindow;
+
+
+	int numOfChoices = choices.size();
+
+	initscr();
+	raw();
+	keypad(stdscr, TRUE);
+	noecho();
+
+	startx = (80 - WIDTH) / 2;
+	starty = (24 - HEIGHT) / 2;
+
+	menuWindow = newwin(HEIGHT, WIDTH, starty, startx);
+	keypad(menuWindow, TRUE);
+
+	mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
+	refresh();
+	printMenu(menuWindow, highlight);
+
+	while(1) {
+		c = wgetch(menuWindow);
+		switch(c) {
+		case KEY_UP:
+			if(highlight == 1)
+				highlight = numOfChoices;
+			else
+				--highlight;
+			break;
+		case KEY_DOWN:
+			if(highlight == numOfChoices)
+				highlight = 1;
+			else 
+				++highlight;
+			break;
+		case 10:
+			choice = highlight;
+			break;
+		default:
+			mvprintw(24, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
+			refresh();
+			break;
+		}
+
+		printMenu(menuWindow, highlight);
+		if(choice != 0)	/* User did a choice come out of the infinite loop */
+			break;
+	}
+	
+	printw("Welcome to the C++ to PostScript Library\n");
+	refresh();
+	
+	userInputCharacter = getch();
+	
+	if (userInputCharacter == '1') {
+		attron(A_BOLD);
+		printw("Drawing polygon");
+		refresh();
+	}
+
+	getch();
+	endwin();
+}
+
+void printMenu(WINDOW * menuWindow, int highlight)
+{
+	int x, y, index;
+
+	x = 2;
+	y = 2;
+
+	box(menuWindow, 0, 0);
+
+	for (int ii = 0; ii < choices.size(); ++ii) {
+		if (highlight == ii + 1) {
+			wattron(menuWindow, A_REVERSE); 
+			mvwprintw(menuWindow, y, x, "%s", choices[ii]);
+			wattroff(menuWindow, A_REVERSE);
+		} else {
+			mvwprintw(menuWindow, y, x, "%s", choices[ii]);
+		}
+		++y;
+		wrefresh(menuWindow);
+	}
+
 }
