@@ -4,6 +4,7 @@
 #include "Polygon.h"
 #include "Arrangements.h"
 #include "Transformations.h"
+#include "CompoundShapes.h"
 #include "Primitives.h"
 using std::ifstream;
 
