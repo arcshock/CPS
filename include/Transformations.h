@@ -1,3 +1,7 @@
+#ifndef TRANSFORMATIONS_H
+#define TRANSFORMATIONS_H
+
+#include "Shapes.h"
 
 class Scaled : public Shape
 {
@@ -63,3 +67,6 @@ class Colored : public Shape
 			}
 		}
 };
+
+#endif
+
