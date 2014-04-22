@@ -39,6 +39,7 @@ string getLinesFromMasterShapesFile(int startLine, int endLine)
     return compPSText;
 }
 
+Spacer spacer(1, 31);
 Rectangle rectangle(49, 92);
 Square square(69);
 Polygon hexagon(6, 72);
@@ -54,7 +55,7 @@ Rotated rotatedTriangle(triangle, LEFT);
 Colored blueSquare(square, 0, 0, 1);
 Colored redScaledStar(scaledStar, 1, 0, 0);
 Layered layered({star, circle});
-Horizontal horizontal0({blueSquare, hexagon, redScaledStar}); 
+Horizontal horizontal0({blueSquare, spacer, hexagon, blueSquare, redScaledStar}); 
 Horizontal horizontal1({circle, layered, pentagon}); 
 Horizontal horizontal2({redScaledStar, rotatedTriangle, gon19}); 
 Vertical vertical({horizontal0, horizontal1, horizontal2});

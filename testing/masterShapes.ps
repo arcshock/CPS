@@ -1,0 +1,181 @@
+%!
+/inch {72 mul} def
+3 inch 3 inch moveto
+
+% printRectangle1 
+gsave
+% Rectangle Width=0.680556 Height=1.277778
+	0.340278 inch 0.638889 inch rmoveto
+	-0.680556 inch 0 inch rlineto
+	0 inch -1.277778 inch rlineto
+	0.680556 inch 0 inch rlineto
+	0 inch 1.277778 inch rlineto
+	stroke
+grestore
+
+%between shapes
+showpage
+3 inch 3 inch moveto
+
+
+% printSquare 
+gsave
+% 4-gon Side=0.958333
+	0.479167 inch -0.479167 inch rmoveto
+	4 {
+		90 rotate
+		0.958333 inch 0 inch rlineto
+	} repeat
+	stroke
+grestore
+
+%between shapes
+showpage
+3 inch 3 inch moveto
+
+
+% printHexagon 
+gsave
+% 6-gon Side=1
+	0.5 inch -0.866025 inch rmoveto
+	6 {
+		60 rotate
+		1 inch 0 inch rlineto
+	} repeat
+	stroke
+grestore
+
+%between shapes
+showpage
+3 inch 3 inch moveto
+
+
+% printPentagon 
+gsave
+% 5-gon Side=1
+	0.5 inch -0.769421 inch rmoveto
+	5 {
+		72 rotate
+		1 inch 0 inch rlineto
+	} repeat
+	stroke
+grestore
+
+%between shapes
+showpage
+3 inch 3 inch moveto
+
+
+% printCircle 
+gsave
+% Circle Radius=1
+	currentpoint 1 inch add moveto
+	currentpoint 1 inch sub 1 inch -270 360 arc
+	stroke
+grestore
+
+%between shapes
+showpage
+3 inch 3 inch moveto
+
+% printScaledSquare
+gsave
+	2 2 scale
+% 4-gon Side=0.958333
+	0.479167 inch -0.479167 inch rmoveto
+	4 {
+		90 rotate
+		0.958333 inch 0 inch rlineto
+	} repeat
+	stroke
+grestore
+
+%between shapes
+showpage
+3 inch 3 inch moveto
+
+% Rotated
+gsave
+	90 rotate
+% 3-gon Side=1
+	0.5 inch -0.433013 inch rmoveto
+	3 {
+		120 rotate
+		1 inch 0 inch rlineto
+	} repeat
+	stroke
+grestore
+
+%between shapes
+showpage
+3 inch 3 inch moveto
+
+% RedScaled Star
+gsave
+/colorize100 {1 0 0 setrgbcolor fill} def
+
+gsave
+	0.4 0.4 scale
+% Star
+	180 rotate
+	0.5 inch -0.769421 inch rmoveto
+	5 {
+	gsave
+		1.618034 inch 0 inch rlineto
+		144 rotate
+		1.618034 inch 0 inch rlineto
+		colorize100
+	grestore
+	72 rotate
+	1 inch 0 inch rlineto
+	} repeat
+	colorize100
+grestore
+grestore
+
+%between shapes
+showpage
+3 inch 3 inch moveto
+
+% Octogon
+gsave
+% 8-gon Side=0.694444
+	0.347222 inch -0.838269 inch rmoveto
+	8 {
+		45 rotate
+		0.694444 inch 0 inch rlineto
+	} repeat
+	stroke
+grestore
+
+%between shapes
+showpage
+3 inch 3 inch moveto
+
+% Gon-19
+gsave
+% 19-gon Side=0.416667
+	0.208333 inch -1.257105 inch rmoveto
+	19 {
+		18.947368 rotate
+		0.416667 inch 0 inch rlineto
+	} repeat
+	stroke
+grestore
+
+%between shapes
+showpage
+3 inch 3 inch moveto
+
+% Triangle
+gsave
+% 3-gon Side=1
+	0.5 inch -0.433013 inch rmoveto
+	3 {
+		120 rotate
+		1 inch 0 inch rlineto
+	} repeat
+	stroke
+grestore
+
+showpage
