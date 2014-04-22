@@ -60,13 +60,13 @@ class Polygon : public Shape
 		{
 			coordinate start = initializeStartingPoint();
 			_tempPSText = 
-						"% " + to_string(_numSides) + "-gon Side=" + to_string(_sideLength) +
+						"% " + to_string(_numSides) + "-gon Side=" + toString(_sideLength) +
 						"\n"
-						"\t" + to_string(start.first) + " inch "  
-						"-" + to_string(start.second) + " inch rmoveto\n"
+						"\t" + toString(start.first) + " inch "  
+						"-" + toString(start.second) + " inch rmoveto\n"
 						"\t" +  to_string(_numSides) + " {\n"
-						"\t\t" + to_string(_degreesPerSide) + " rotate\n"
-						"\t\t" + to_string(_sideLength) + " inch 0 inch rlineto\n"
+						"\t\t" + toString(_degreesPerSide) + " rotate\n"
+						"\t\t" + toString(_sideLength) + " inch 0 inch rlineto\n"
 						"\t} repeat\n"
 						"\tstroke\n";
 		}

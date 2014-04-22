@@ -42,6 +42,13 @@ class Shape
 		{
 			return _tempPSText;
 		}
+		
+		string toString(double number)
+		{
+			string str = to_string(number);
+			str.erase( str.find_last_not_of('0') + 1, string::npos );
+			return str;
+		}
 
 		virtual string textToFile(string fileName)
 		{
@@ -86,14 +93,14 @@ class Rectangle : public Spacer
 		Rectangle(double width, double height) : Spacer(width, height) 
 		{
 			_tempPSText = 
-					"% Rectangle Width=" + to_string(_width) + " Height=" +
-					to_string(_height) + "\n"
-					"\t" + to_string(_width / 2.0) + " inch " +
-					to_string(_height / 2.0) + " inch rmoveto\n" + 
-					"\t-" + to_string(_width) + " inch 0 inch rlineto\n"
-					"\t0 inch -" + to_string(_height) + " inch rlineto\n" +
-					"\t" + to_string(_width) + " inch 0 inch rlineto\n"
-					"\t0 inch " + to_string(_height) + " inch rlineto\n"
+					"% Rectangle Width=" + toString(_width) + " Height=" +
+					toString(_height) + "\n"
+					"\t" + toString(_width / 2.0) + " inch " +
+					toString(_height / 2.0) + " inch rmoveto\n" + 
+					"\t-" + toString(_width) + " inch 0 inch rlineto\n"
+					"\t0 inch -" + toString(_height) + " inch rlineto\n" +
+					"\t" + toString(_width) + " inch 0 inch rlineto\n"
+					"\t0 inch " + toString(_height) + " inch rlineto\n"
 					"\tstroke\n";
 		}
 };
@@ -105,10 +112,10 @@ class Circle : public Shape
 		{
 			setBoundingBox(radius * 2, radius * 2);
 			_tempPSText =
-						"% Circle Radius=" + to_string(_radius) + "\n" 
-						"\tcurrentpoint " + to_string(_radius) + " inch add moveto\n"
-						"\tcurrentpoint " + to_string(_radius) + " inch sub " +
-						to_string(_radius) + " inch -270 360 arc\n"
+						"% Circle Radius=" + toString(_radius) + "\n" 
+						"\tcurrentpoint " + toString(_radius) + " inch add moveto\n"
+						"\tcurrentpoint " + toString(_radius) + " inch sub " +
+						toString(_radius) + " inch -270 360 arc\n"
 						"\tstroke\n";
 		}			
 	private: 
@@ -122,8 +129,8 @@ class Scaled : public Shape
 		{
 			_height = shape.getHeight() * yScaleFactor;
 			_width = shape.getWidth() * xScaleFactor;
-			_tempPSText = "\t" + to_string(xScaleFactor) + 
-								  " " + to_string(yScaleFactor) + 
+			_tempPSText = "\t" + toString(xScaleFactor) + 
+								  " " + toString(yScaleFactor) + 
 								  " scale\n" +
 								  shape.getTempPostScriptText();
 		}
@@ -135,7 +142,7 @@ class Rotated : public Shape
 		Rotated(Shape shape, RotationAngle angle)
 		{
 			setBoundingBox(shape);
-			_tempPSText = "\t" + to_string(angle) +
+			_tempPSText = "\t" + toString(angle) +
 							" rotate\n" +
 							shape.getTempPostScriptText();
 		}
@@ -198,7 +205,7 @@ class Vertical : public Shape
 				setBoundingBox(shape);
 				drawConsecutiveShapes(shape);
 			}
-			cout << getHeight() << "\n";
+			std::cout << getHeight() << "\n";
 		}
 	protected:
 		virtual void setBoundingBox(Shape shape)
@@ -210,8 +217,8 @@ class Vertical : public Shape
 
 		virtual void drawConsecutiveShapes(Shape shape)
 		{
-			_tempPSText += "0 " + to_string(shape.getHeight() / 2) + " inch rmoveto\n" + 
-						shape.draw() + "\n\n0 " +  to_string(shape.getHeight() / 2) + 
+			_tempPSText += "0 " + toString(shape.getHeight() / 2) + " inch rmoveto\n" + 
+						shape.draw() + "\n\n0 " +  toString(shape.getHeight() / 2) + 
 						" inch rmoveto\n";
 		}
 };
@@ -241,8 +248,8 @@ class Horizontal : public Shape
 
 		virtual void drawConsecutiveShapes(Shape shape)
 		{
-			_tempPSText += to_string(shape.getWidth() / 2) + " inch 0 rmoveto\n" + 
-						shape.draw() + "\n\n" +  to_string(shape.getWidth() / 2) + 
+			_tempPSText += toString(shape.getWidth() / 2) + " inch 0 rmoveto\n" + 
+						shape.draw() + "\n\n" +  toString(shape.getWidth() / 2) + 
 						" inch 0 rmoveto\n";
 		}	
 
@@ -260,17 +267,17 @@ class Star : public Shape
 			_tempPSText = 
 				"% Star \n"
 				"\t180 rotate\n"  
-				"\t" + to_string(inchInnerPentagonSideLength / 2.0 ) + " inch -" 
-				     + to_string(inchInnerPentagonSideLength * 0.769421) + " inch rmoveto\n"
+				"\t" + toString(inchInnerPentagonSideLength / 2.0 ) + " inch -" 
+				     + toString(inchInnerPentagonSideLength * 0.769421) + " inch rmoveto\n"
 				"\t5 {\n"
 				"\tgsave\n"
-				"\t\t" + to_string(isocelesLeg) + " inch 0 inch rlineto\n"
+				"\t\t" + toString(isocelesLeg) + " inch 0 inch rlineto\n"
 				"\t\t144 rotate\n"
-				"\t\t" + to_string(isocelesLeg) + " inch 0 inch rlineto\n"
+				"\t\t" + toString(isocelesLeg) + " inch 0 inch rlineto\n"
 				"\t\tstroke\n"
 				"\tgrestore\n"
-				"\t" + to_string(72.0) + " rotate\n"
-				"\t" + to_string(inchInnerPentagonSideLength) + " inch 0 inch rlineto\n" 
+				"\t" + toString(72.0) + " rotate\n"
+				"\t" + toString(inchInnerPentagonSideLength) + " inch 0 inch rlineto\n" 
 				"\t} repeat\n"
 				"\tstroke\n";
 		}
@@ -287,9 +294,9 @@ class Colored : public Shape
 	public:
 	Colored(Shape shape, int red, int green, int blue)
 	{
-		string colorizePS = "colorize" + to_string(red) + to_string(green) + to_string(blue);
-		string definePSColor = "/" + colorizePS + " {" + to_string(red) + " " + to_string(green) +
-								" " + to_string(blue) + " setrgbcolor fill} def";
+		string colorizePS = "colorize" + toString(red) + toString(green) + toString(blue);
+		string definePSColor = "/" + colorizePS + " {" + toString(red) + " " + toString(green) +
+								" " + toString(blue) + " setrgbcolor fill} def";
 		
 		_tempPSText = shape.draw();
 		replaceStrokeWithColorize(colorizePS);
