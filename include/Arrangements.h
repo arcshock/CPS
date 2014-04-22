@@ -1,5 +1,5 @@
-#ifndef COMPOUND_SHAPES_H
-#define COMPOUND_SHAPES_H
+#ifndef ARRANGEMENTS_H
+#define ARRANGEMENTS_H
 
 #include "Shapes.h"
 
