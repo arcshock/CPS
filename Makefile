@@ -15,9 +15,8 @@ SRC = ./src/*.cpp
 TEST = ./testing/*.cpp
 
 # LFLAGS
-# LIBS
+LIB = -lncurses
 
-#CATCH = ./test/*.cpp
 
 #- Possible make targes.
 #-
@@ -29,7 +28,7 @@ all:
 
 #- build: compiles the project.
 build:
-	$(CC) $(CFLAGS) $(INCLUDE) $(SRC)  -o ./build/debug/cps-build.out
+	$(CC) $(CFLAGS) $(INCLUDE) $(SRC) $(LIB) -o ./build/debug/cps-build.out
 
 
 #- run: runs the program executable.
@@ -43,7 +42,7 @@ test:
 
 #- exe: compiles and runs project.
 exe: mkbuild
-	$(CC) $(CFLAGS) $(INCLUDE) $(SRC)  -o ./build/debug/cps-build.out
+	$(CC) $(CFLAGS) $(INCLUDE) $(SRC) $(LIB)  -o ./build/debug/cps-build.out
 	@./build/debug/cps-build.out
 
 
