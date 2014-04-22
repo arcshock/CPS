@@ -21,7 +21,7 @@ int main(int argc, char* args[])
 	vector<Shape> shapes = handleArgs(argc, args);
 
 	for ( auto i : shapes) {
-		i.textToFile(main.ps);
+		i.textToFile("main.ps");
 	}
 
 }

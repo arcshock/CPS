@@ -13,7 +13,11 @@ const int HEXAGON = SQUARE + 16;
 const int PENTAGON = HEXAGON + 16;
 const int CIRCLE = PENTAGON + 13;
 const int SCALED = CIRCLE + 16;
-const int ROTATED = SCALED + 17;
+const int ROTATED = SCALED + 16;
+const int RED = ROTATED + 27;
+const int OCTOGON = RED + 15;
+const int GON19 = OCTOGON + 15;
+const int TRIANGLE = GON19 + 15;
 
 string getLinesFromMasterShapesFile(int startLine, int endLine)
 {
@@ -38,34 +42,35 @@ Rectangle rectangle(72, 72);
 Square square(69);
 Polygon hexagon(6, 72);
 Polygon pentagon(5, 72);
-Polygon gon4(4, 72);
-Polygon gon8(8, 72);
-Polygon gon3(3,72);
-Circle circle(72);
-Scaled scaledSquare(square, 2, 2);
-Rotated rotatedScaledSquare(scaledSquare, LEFT);
-Star star(72);
-Scaled sStar(star, 0.4, 0.4);
-Colored bcolored(square, 0, 0, 1);
-Colored rcolored(gon8, 1, 0, 0);
-Horizontal layeredShapes0({bcolored, hexagon, rcolored}); 
-Horizontal layeredShapes1({circle, bcolored, pentagon}); 
-Horizontal layeredShapes2({rcolored, rotatedScaledSquare, circle}); 
-Vertical layeredShapes({star, scaledSquare, star, hexagon});
+Polygon octogon(8, 50);
+Polygon gon19(19,30);
 Triangle triangle(72);
+Circle circle(72);
+Star star(72);
+Scaled scaledStar(star, 0.4, 0.4);
+Scaled scaledSquare(square, 2, 2);
+Rotated rotatedTriangle(triangle, LEFT);
+Colored blueSquare(square, 0, 0, 1);
+Colored redScaledStar(scaledStar, 1, 0, 0);
+Layered layered({star, circle});
+Horizontal horizontal0({blueSquare, hexagon, redScaledStar}); 
+Horizontal horizontal1({circle, layered, pentagon}); 
+Horizontal horizontal2({redScaledStar, rotatedTriangle, gon19}); 
+Vertical vertical({horizontal0, horizontal1, horizontal2});
 
 TEST_CASE( "To File" ) {
-	REQUIRE( layeredShapes.textToFile("testing/testing.ps") == "I" );
+	REQUIRE( octogon.textToFile("testing/testing.ps") == "I" );
 }
 TEST_CASE( "Rectangles" ) {
 	REQUIRE( rectangle.draw() == getLinesFromMasterShapesFile(RECTANGLE1 - 8, RECTANGLE1) );
 }
-TEST_CASE( "Squares" ) {
-	REQUIRE( square.draw() == getLinesFromMasterShapesFile(SQUARE - 8, SQUARE) );
-}
-TEST_CASE( "Polygons" ) {
+TEST_CASE( "Regular Polygons" ) {
 	REQUIRE( hexagon.draw() == getLinesFromMasterShapesFile(HEXAGON - 8, HEXAGON) );
 	REQUIRE( pentagon.draw() == getLinesFromMasterShapesFile(PENTAGON - 8, PENTAGON) );
+	REQUIRE( octogon.draw() == getLinesFromMasterShapesFile(OCTOGON -8, OCTOGON) );
+	REQUIRE( gon19.draw() == getLinesFromMasterShapesFile(GON19 - 8, GON19) );
+	REQUIRE( triangle.draw() == getLinesFromMasterShapesFile(TRIANGLE - 8, TRIANGLE) );
+	REQUIRE( square.draw() == getLinesFromMasterShapesFile(SQUARE - 8, SQUARE) );
 }
 TEST_CASE( "Circle" ) {
 	REQUIRE( circle.draw() == getLinesFromMasterShapesFile(CIRCLE - 5, CIRCLE) );
@@ -74,6 +79,9 @@ TEST_CASE( "Scaled" ) {
 	REQUIRE( scaledSquare.draw() == getLinesFromMasterShapesFile(SCALED - 9, SCALED) );
 }
 TEST_CASE( "Rotated" ) {
-	REQUIRE( rotatedScaledSquare.draw() == getLinesFromMasterShapesFile(ROTATED - 10, 
+	REQUIRE( rotatedTriangle.draw() == getLinesFromMasterShapesFile(ROTATED - 9, 
 											ROTATED) );
+}
+TEST_CASE( "Colored" ) {
+	REQUIRE( redScaledStar.draw() == getLinesFromMasterShapesFile(RED - 20, RED) );
 }
