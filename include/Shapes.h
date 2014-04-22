@@ -86,6 +86,8 @@ class Rectangle : public Spacer
 		Rectangle(double width, double height) : Spacer(width, height) 
 		{
 			_tempPSText = 
+					"% Rectangle Width=" + to_string(_width) + " Height=" +
+					to_string(_height) + "\n"
 					"\t" + to_string(_width / 2.0) + " inch " +
 					to_string(_height / 2.0) + " inch rmoveto\n" + 
 					"\t-" + to_string(_width) + " inch 0 inch rlineto\n"
@@ -102,12 +104,13 @@ class Circle : public Shape
 		Circle(double radius) : _radius(radius / 72.)
 		{
 			setBoundingBox(radius * 2, radius * 2);
-			_tempPSText = "\tcurrentpoint " + to_string(_radius) + " inch add moveto\n"
+			_tempPSText =
+						"% Circle Radius=" + to_string(_radius) + "\n" 
+						"\tcurrentpoint " + to_string(_radius) + " inch add moveto\n"
 						"\tcurrentpoint " + to_string(_radius) + " inch sub " +
 						to_string(_radius) + " inch -270 360 arc\n"
 						"\tstroke\n";
 		}			
-
 	private: 
 		double _radius;
 };
@@ -153,6 +156,7 @@ class Layered : public Shape
 		{
 			_height = 0;
 		 	_width = 0;
+			_tempPSText = "% Layered Shapes Start\n";
 
 			for (auto shape : shapes)
 			{	
@@ -187,14 +191,15 @@ class Vertical : public Shape
 		{
 			_height = 0;
 		 	_width = 0;
+			_tempPSText = "% Vertical Shapes Start\n";
 
 			for (auto shape : shapes)
 			{	
 				setBoundingBox(shape);
 				drawConsecutiveShapes(shape);
 			}
+			cout << getHeight() << "\n";
 		}
-
 	protected:
 		virtual void setBoundingBox(Shape shape)
 		{
@@ -218,6 +223,7 @@ class Horizontal : public Shape
 		{
 			_height = 0;
 		 	_width = 0;
+			_tempPSText = "% Horizontal Shapes Start\n";
 
 			for (auto shape : shapes)
 			{	
@@ -225,7 +231,6 @@ class Horizontal : public Shape
 				drawConsecutiveShapes(shape);
 			}
 		}
-	
 	protected:
 		virtual void setBoundingBox(Shape shape)
 		{
@@ -252,7 +257,9 @@ class Star : public Shape
 			double inchInnerPentagonSideLength = toInches(innerPentagonSideLength);
 			double isocelesLeg = (inchInnerPentagonSideLength * PHI);
 			setBoundingBox(inchInnerPentagonSideLength, isocelesLeg);
-			_tempPSText = "\t180 rotate\n"  
+			_tempPSText = 
+				"% Star \n"
+				"\t180 rotate\n"  
 				"\t" + to_string(inchInnerPentagonSideLength / 2.0 ) + " inch -" 
 				     + to_string(inchInnerPentagonSideLength * 0.769421) + " inch rmoveto\n"
 				"\t5 {\n"

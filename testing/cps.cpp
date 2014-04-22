@@ -7,12 +7,12 @@ using std::string;
 using std::ifstream;
 
 const int RECTANGLE1 = 13;
-const int SQUARE = RECTANGLE1 + 19;
-const int HEXAGON = SQUARE + 23;
-const int PENTAGON = HEXAGON + 21;
+const int SQUARE = RECTANGLE1 + 15;
+const int HEXAGON = SQUARE + 15;
+const int PENTAGON = HEXAGON + 15;
 const int CIRCLE = PENTAGON + 12;
-const int SCALED = CIRCLE + 19;
-const int ROTATED = SCALED + 20;
+const int SCALED = CIRCLE + 15;
+const int ROTATED = SCALED + 16;
 
 string getLinesFromMasterShapesFile(int startLine, int endLine)
 {
@@ -54,25 +54,25 @@ Vertical layeredShapes({layeredShapes0, layeredShapes1, layeredShapes2, star});
 Triangle triangle(72);
 
 TEST_CASE( "To File" ) {
-	REQUIRE( triangle.textToFile("testing/testing.ps") == "I" );
+	REQUIRE( layeredShapes.textToFile("testing/testing.ps") == "I" );
 }
 TEST_CASE( "Rectangles" ) {
 	REQUIRE( rectangle.draw() == getLinesFromMasterShapesFile(RECTANGLE1 - 7, RECTANGLE1) );
 }
 TEST_CASE( "Squares" ) {
-	REQUIRE( square.draw() == getLinesFromMasterShapesFile(SQUARE - 11, SQUARE) );
+	REQUIRE( square.draw() == getLinesFromMasterShapesFile(SQUARE - 7, SQUARE) );
 }
 TEST_CASE( "Polygons" ) {
-	REQUIRE( hexagon.draw() == getLinesFromMasterShapesFile(HEXAGON - 15, HEXAGON) );
-	REQUIRE( pentagon.draw() == getLinesFromMasterShapesFile(PENTAGON - 13, PENTAGON) );
+	REQUIRE( hexagon.draw() == getLinesFromMasterShapesFile(HEXAGON - 7, HEXAGON) );
+	REQUIRE( pentagon.draw() == getLinesFromMasterShapesFile(PENTAGON - 7, PENTAGON) );
 }
 TEST_CASE( "Circle" ) {
 	REQUIRE( circle.draw() == getLinesFromMasterShapesFile(CIRCLE - 4, CIRCLE) );
 }
 TEST_CASE( "Scaled" ) {
-	REQUIRE( scaledSquare.draw() == getLinesFromMasterShapesFile(SCALED - 12, SCALED) );
+	REQUIRE( scaledSquare.draw() == getLinesFromMasterShapesFile(SCALED - 8, SCALED) );
 }
 TEST_CASE( "Rotated" ) {
-	REQUIRE( rotatedScaledSquare.draw() == getLinesFromMasterShapesFile(ROTATED - 13, 
+	REQUIRE( rotatedScaledSquare.draw() == getLinesFromMasterShapesFile(ROTATED - 9, 
 											ROTATED) );
 }
