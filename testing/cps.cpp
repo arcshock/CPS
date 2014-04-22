@@ -39,7 +39,7 @@ string getLinesFromMasterShapesFile(int startLine, int endLine)
     return compPSText;
 }
 
-Rectangle rectangle(72, 72);
+Rectangle rectangle(49, 92);
 Square square(69);
 Polygon hexagon(6, 72);
 Polygon pentagon(5, 72);
@@ -60,7 +60,7 @@ Horizontal horizontal2({redScaledStar, rotatedTriangle, gon19});
 Vertical vertical({horizontal0, horizontal1, horizontal2});
 
 TEST_CASE( "To File" ) {
-	REQUIRE( octogon.textToFile("testing/testing.ps") == "I" );
+	REQUIRE( vertical.textToFile("testing/testing.ps") == "I" );
 }
 TEST_CASE( "Rectangles" ) {
 	REQUIRE( rectangle.draw() == getLinesFromMasterShapesFile(RECTANGLE1 - 8, RECTANGLE1) );

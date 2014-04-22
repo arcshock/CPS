@@ -37,8 +37,8 @@ class Rotated : public Shape
 				_width = shape.getWidth();
 				_height = shape.getHeight();
 			}
-			_width = shape.getWidth();
-			_height = shape.getHeight();
+			_height = shape.getWidth();
+			_width = shape.getHeight();
 		}	
 };
 
