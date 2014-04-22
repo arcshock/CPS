@@ -2,7 +2,7 @@
 #include "catch.hpp"
 #include "Shapes.h"
 #include "Polygon.h"
-#include "ShapeArrangements.h"
+#include "Arrangements.h"
 #include "Transformations.h"
 #include <string>
 using std::string;
