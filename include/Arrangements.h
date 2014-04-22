@@ -1,6 +1,8 @@
 #ifndef COMPOUND_SHAPES_H
 #define COMPOUND_SHAPES_H
 
+#include "Shapes.h"
+
 class Layered : public Shape
 {
 	public:
