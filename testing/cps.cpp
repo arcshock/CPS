@@ -1,9 +1,9 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "Shapes.h"
 #include "Polygon.h"
 #include "Arrangements.h"
 #include "Transformations.h"
+#include "CompoundShapes.h"
 #include <string>
 using std::string;
 using std::ifstream;
