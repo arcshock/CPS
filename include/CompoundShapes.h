@@ -2,6 +2,7 @@
 #define FLAGS_H
 
 #include "Shapes.h"
+#include "Primitives.h"
 #include "Transformations.h"
 #include "Arrangements.h"
 
