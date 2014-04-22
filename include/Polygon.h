@@ -1,13 +1,10 @@
 #ifndef POLYGON_H
 #define POLYGON_H
-
 #include "Shapes.h"
-
 
 class Polygon : public Shape 
 {
 	typedef pair<double, double> coordinate; 
-
 	public:
 		Polygon(int numSides, double sideLength):
 			_numSides(numSides), _degreesPerSide(360.0 / numSides)
@@ -17,9 +14,7 @@ class Polygon : public Shape
 			updateWidth();
 			updatePSText();
 		}
-
 	private:
-
 		bool isNumSidesOdd()
 		{
 			return _numSides % 2;
@@ -84,6 +79,18 @@ class Polygon : public Shape
 		int _numSides;
 		double _sideLength;
 		double _degreesPerSide;
+};
+
+class Square : public Polygon
+{
+	public:
+	Square(double side) : Polygon (4, side) {}
+};
+
+class Triangle : public Polygon
+{
+	public:
+	Triangle(double sideLength) : Polygon (3, sideLength) {}
 };
 
 #endif /* POLYGON_H */

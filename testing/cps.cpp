@@ -6,6 +6,14 @@
 using std::string;
 using std::ifstream;
 
+const int RECTANGLE1 = 13;
+const int SQUARE = RECTANGLE1 + 19;
+const int HEXAGON = SQUARE + 23;
+const int PENTAGON = HEXAGON + 21;
+const int CIRCLE = PENTAGON + 12;
+const int SCALED = CIRCLE + 19;
+const int ROTATED = SCALED + 20;
+
 string getLinesFromMasterShapesFile(int startLine, int endLine)
 {
     ifstream infile("testing/masterShapes.ps");
@@ -20,23 +28,13 @@ string getLinesFromMasterShapesFile(int startLine, int endLine)
             break;
         if (count < startLine)
             continue;
-
         compPSText += line + "\n";
     }
-
     return compPSText;
 }
 
-string outputShape(string shape)
-{
-	return "gsave\n" + shape;
-}
-
-string listShapes = printSquare + "\n\n" + outputShape(printCircle) + "\n\n" +
-						outputShape(printHexagon) + "\n\n" + outputShape(printPentagon) + "\n";
-
-Rectangle rectangle(1 * 72,2 * 72);
-Square square(3 * 72);
+Rectangle rectangle(72, 72);
+Square square(216);
 Polygon hexagon(6, 72);
 Polygon pentagon(5, 72);
 Polygon gon4(4, 72);
@@ -53,26 +51,28 @@ Horizontal layeredShapes0({bcolored, hexagon, rcolored});
 Horizontal layeredShapes1({circle, bcolored, pentagon}); 
 Horizontal layeredShapes2({rcolored, rotatedScaledSquare, circle}); 
 Vertical layeredShapes({layeredShapes0, layeredShapes1, layeredShapes2, star});
+Triangle triangle(72);
 
 TEST_CASE( "To File" ) {
-	REQUIRE( layeredShapes.textToFile("testing/testing.ps") == "I" );
+	REQUIRE( triangle.textToFile("testing/testing.ps") == "I" );
 }
 TEST_CASE( "Rectangles" ) {
-	REQUIRE( rectangle.draw() == getLinesFromMasterShapesFile(6, 13) );
+	REQUIRE( rectangle.draw() == getLinesFromMasterShapesFile(RECTANGLE1 - 7, RECTANGLE1) );
 }
 TEST_CASE( "Squares" ) {
-	REQUIRE( square.draw() == getLinesFromMasterShapesFile(21, 28) );
+	REQUIRE( square.draw() == getLinesFromMasterShapesFile(SQUARE - 11, SQUARE) );
 }
 TEST_CASE( "Polygons" ) {
-	REQUIRE( hexagon.draw() == getLinesFromMasterShapesFile(36, 51) );
-	REQUIRE( pentagon.draw() == getLinesFromMasterShapesFile(59, 72) );
+	REQUIRE( hexagon.draw() == getLinesFromMasterShapesFile(HEXAGON - 15, HEXAGON) );
+	REQUIRE( pentagon.draw() == getLinesFromMasterShapesFile(PENTAGON - 13, PENTAGON) );
 }
 TEST_CASE( "Circle" ) {
-	REQUIRE( circle.draw() == getLinesFromMasterShapesFile(80, 84) );
+	REQUIRE( circle.draw() == getLinesFromMasterShapesFile(CIRCLE - 4, CIRCLE) );
 }
 TEST_CASE( "Scaled" ) {
-	REQUIRE( scaledSquare.draw() == getLinesFromMasterShapesFile(90, 98) );
+	REQUIRE( scaledSquare.draw() == getLinesFromMasterShapesFile(SCALED - 12, SCALED) );
 }
 TEST_CASE( "Rotated" ) {
-	REQUIRE( rotatedScaledSquare.draw() == getLinesFromMasterShapesFile(105, 114) );
+	REQUIRE( rotatedScaledSquare.draw() == getLinesFromMasterShapesFile(ROTATED - 13, 
+											ROTATED) );
 }

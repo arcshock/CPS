@@ -47,8 +47,8 @@ class Shape
 		{
 			ofstream outputPSFile;
 			outputPSFile.open(fileName, ios::binary);
-			outputPSFile << "%!\n/inch { 72 mul } def\n3 inch 3 inch moveto\n" << draw() 
-						 << "\n\nshowpage";
+			outputPSFile << "%!\n/inch { 72 mul } def\n"
+							"3 inch 3 inch moveto\n" << draw() << "\n\nshowpage";
 			outputPSFile.close();
 
 			return "I";
@@ -86,21 +86,14 @@ class Rectangle : public Spacer
 		Rectangle(double width, double height) : Spacer(width, height) 
 		{
 			_tempPSText = 
-					"\t" + to_string(_width / 2.0) + " inch " + to_string(_height / 2.0) +
-					" inch rmoveto\n" + 
+					"\t" + to_string(_width / 2.0) + " inch " +
+					to_string(_height / 2.0) + " inch rmoveto\n" + 
 					"\t-" + to_string(_width) + " inch 0 inch rlineto\n"
 					"\t0 inch -" + to_string(_height) + " inch rlineto\n" +
 					"\t" + to_string(_width) + " inch 0 inch rlineto\n"
 					"\t0 inch " + to_string(_height) + " inch rlineto\n"
 					"\tstroke\n";
 		}
-
-};
-
-class Square : public Rectangle
-{
-	public:
-		Square(double side) : Rectangle(side, side) {}
 };
 
 class Circle : public Shape
@@ -117,9 +110,7 @@ class Circle : public Shape
 
 	private: 
 		double _radius;
-
 };
-
 
 class Scaled : public Shape
 {
