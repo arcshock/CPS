@@ -6,12 +6,14 @@ using std::to_string;
 #include <cmath>
 using std::sin;
 using std::cos;
+using std::sqrt;
 #include <utility>
 #include <initializer_list>
 using std::initializer_list;
 #include <fstream>
 
 const double PI = 3.14159265358979;
+const double PHI = 1.618034;
 enum RotationAngle { LEFT = 90, RIGHT = 270, INVERT = 180 };
 
 class Shape
@@ -145,11 +147,48 @@ class Star : public Shape
 				"\tstroke\n";
 		}
 
+		Star(double starRadius) : _radius(starRadius)
+		{
+			double innerPentagonSideLength = getPentagonSideLength();
+			double inchInnerPentagonSideLength = toInches(innerPentagonSideLength);
+			double isocelesLeg = (inchInnerPentagonSideLength * PHI);
+			setBoundingBox(inchInnerPentagonSideLength, isocelesLeg);
+			_tempPSText = 
+				"% Star \n"
+
+				"\t" + toString(inchInnerPentagonSideLength / 2.0 ) + " inch -" 
+				+ toString(inchInnerPentagonSideLength * 0.769421) + " inch rmoveto\n"
+				"\t5 {\n"
+				"\tgsave\n"
+				"\t\t" + toString(isocelesLeg) + " inch 0 inch rlineto\n"
+				"\t\t144 rotate\n"
+				"\t\t" + toString(isocelesLeg) + " inch 0 inch rlineto\n"
+				"\t\tstroke\n"
+				"\tgrestore\n"
+				"\t" + toString(72.0) + " rotate\n"
+				"\t" + toString(inchInnerPentagonSideLength) + " inch 0 inch rlineto\n" 
+				"\t} repeat\n"
+				"\tstroke\n";
+		}
+
+		double getPentagonSideLength()
+		{
+			const double PHISQ = PHI * PHI;
+			double numerator = 
+				PHISQ + PHI - (2 * _radius * PHISQ) - (_radius / 2) + .25;
+			double denominator =
+				(PHISQ * PHISQ) - PHISQ / 2 + .0625;
+			return sqrt(numerator / denominator);
+		}
+
 		virtual void setBoundingBox(double innerPentagonSideLength, double isocelesLeg)
 		{
 			_width = innerPentagonSideLength + (2 * isocelesLeg);
 			_height = _width * sin(72*PI/180); 
 		}
+
+		double _radius;
+
 };
 
 #endif /* SHAPES_H */
