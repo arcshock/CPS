@@ -40,14 +40,7 @@ run:
 test:
 	$(CC) $(CFLAGS) $(INCLUDE) $(TEST) -o ./build/debug/cps-test.out
 	./build/debug/cps-test.out
-	./testing/filecomp.sh
-	cmp ./testing/correctPS.ps ./testing/testing.ps 
-	if [ $? -eq 0 ] 
-	then 
-		echo 'Bonus Tests Pass'
-	else 
-		echo 'Fail'
-	fi
+	@./testing/filecomp.sh
  
 #- exe: compiles and runs project.
 exe: mkbuild

@@ -5,9 +5,9 @@ NC='\033[0m' #No Color
 cmp ./testing/correctPS.ps ./testing/testing.ps
     if [ $? -eq 0 ] 
     then 
-		echo -en "${green}PS File DOES match${NC}\n"
+		echo "${green}PS File DOES match${NC}\n"
 		tput sgr0
     else 
-		echo -en "${red}PS file does NOT match${NC}\n" 
+		echo "${red}PS file does NOT match${NC}\n" 
 		tput sgr0
     fi
