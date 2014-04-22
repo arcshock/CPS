@@ -38,7 +38,7 @@ string getLinesFromMasterShapesFile(int startLine, int endLine)
     return compPSText;
 }
 
-Spacer spacer(1, 31);
+Spacer spacer(4, 31);
 Rectangle rectangle(49, 92);
 Square square(69);
 Polygon hexagon(6, 72);
@@ -56,8 +56,9 @@ Colored redScaledStar(scaledStar, 1, 0, 0);
 Layered layered({star, circle});
 Horizontal horizontal0({blueSquare, spacer, hexagon, blueSquare, redScaledStar}); 
 Horizontal horizontal1({circle, layered, pentagon}); 
-Horizontal horizontal2({redScaledStar, rotatedTriangle, gon19}); 
-Vertical vertical({horizontal0, horizontal1, horizontal2});
+Horizontal horizontal2({pentagon, pentagon, pentagon}); 
+Horizontal horizontal3({blueSquare,blueSquare,blueSquare,rotatedTriangle,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare});
+Vertical vertical({horizontal2, horizontal2, horizontal2, spacer, horizontal3});
 
 TEST_CASE( "To File" ) {
 	REQUIRE( vertical.textToFile("testing/testing.ps") == "I" );
