@@ -1,5 +1,11 @@
 #ifndef PRIMITIVES_H
 #define PRIMITIVES_H
+#include <cmath>
+using std::sin;
+using std::cos;
+using std::sqrt;
+
+const double PHI = 1.618034;
 
 class Spacer : public Shape
 {
@@ -49,9 +55,9 @@ class Circle : public Shape
 class Star : public Shape
 {
 	public:
-		Star(int innerPentagonSideLength) 
+		Star(double starRadius) : _radius(starRadius * 72)
 		{
-			const double PHI = 1.618034;
+			double innerPentagonSideLength = getPentagonSideLength();
 			double inchInnerPentagonSideLength = toInches(innerPentagonSideLength);
 			double isocelesLeg = (inchInnerPentagonSideLength * PHI);
 			setBoundingBox(inchInnerPentagonSideLength, isocelesLeg);
@@ -73,11 +79,24 @@ class Star : public Shape
 				"\tstroke\n";
 		}
 
+		double getPentagonSideLength()
+		{
+			const double PHISQ = PHI * PHI;
+			double numerator = 
+				-(PHISQ + PHI - (2 * _radius * PHISQ) - (_radius / 2) + .25);
+			double denominator =
+				(PHISQ * PHISQ) - PHISQ / 2 + .0625;
+			return sqrt(numerator / denominator);
+		}
+
+
 		virtual void setBoundingBox(double innerPentagonSideLength, double isocelesLeg)
 		{
 			_width = innerPentagonSideLength + (2 * isocelesLeg);
 			_height = _width * sin(72*PI/180); 
 		}
+
+		double _radius;
 };
 
 #endif /* PRIMITIVES_H */
