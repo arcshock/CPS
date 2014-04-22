@@ -1,13 +1,10 @@
 #ifndef POLYGON_H
 #define POLYGON_H
-
 #include "Shapes.h"
-
 
 class Polygon : public Shape 
 {
 	typedef pair<double, double> coordinate; 
-
 	public:
 		Polygon(int numSides, double sideLength):
 			_numSides(numSides), _degreesPerSide(360.0 / numSides)
@@ -17,9 +14,7 @@ class Polygon : public Shape
 			updateWidth();
 			updatePSText();
 		}
-
 	private:
-
 		bool isNumSidesOdd()
 		{
 			return _numSides % 2;
@@ -64,15 +59,16 @@ class Polygon : public Shape
 		void updatePSText()
 		{
 			coordinate start = initializeStartingPoint();
-			_tempPSText = "\t" + to_string(start.first) + " inch "  
-						  "-" + to_string(start.second) + " inch rmoveto\n";
-
-			for (int side = 0; side < _numSides; ++side)
-			{
-				_tempPSText += "\t" + to_string(_degreesPerSide) + " rotate\n" +
-					"\t" + to_string(_sideLength) + " inch 0 inch rlineto\n";
-			}
-			_tempPSText += "\tstroke\n";
+			_tempPSText = 
+						"% " + to_string(_numSides) + "-gon Side=" + toString(_sideLength) +
+						"\n"
+						"\t" + toString(start.first) + " inch "  
+						"-" + toString(start.second) + " inch rmoveto\n"
+						"\t" +  to_string(_numSides) + " {\n"
+						"\t\t" + toString(_degreesPerSide) + " rotate\n"
+						"\t\t" + toString(_sideLength) + " inch 0 inch rlineto\n"
+						"\t} repeat\n"
+						"\tstroke\n";
 		}
 
 		coordinate initializeStartingPoint()
@@ -84,6 +80,18 @@ class Polygon : public Shape
 		int _numSides;
 		double _sideLength;
 		double _degreesPerSide;
+};
+
+class Square : public Polygon
+{
+	public:
+	Square(double side) : Polygon (4, side) {}
+};
+
+class Triangle : public Polygon
+{
+	public:
+	Triangle(double sideLength) : Polygon (3, sideLength) {}
 };
 
 #endif /* POLYGON_H */

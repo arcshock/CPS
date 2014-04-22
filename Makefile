@@ -39,7 +39,8 @@ run:
 test:
 	$(CC) $(CFLAGS) $(INCLUDE) $(TEST) -o ./build/debug/cps-test.out
 	./build/debug/cps-test.out
-
+	@./testing/filecomp.sh
+ 
 #- exe: compiles and runs project.
 exe: mkbuild
 	$(CC) $(CFLAGS) $(INCLUDE) $(SRC) $(LIB)  -o ./build/debug/cps-build.out

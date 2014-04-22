@@ -37,7 +37,7 @@ int main(int argc, char* args[])
 	vector<Shape> shapes = handleArgs(argc, args);
 
 	for ( auto i : shapes) {
-		i.textToFile();
+		i.textToFile(main.ps);
 	}
 
 }
