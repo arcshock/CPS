@@ -16,11 +16,11 @@ using std::endl;
 #include <ncurses.h>
 
 void printMenu(WINDOW * menuWindow, int highlight);
-vector<char *> choices = { "Draw a shape",
-				   "Specify output file",
-				   "randomness",
-				   "About",
-				   "Exit" };
+vector<string> choices = { "Draw a shape",
+				"Specify output file",
+				"randomness",
+				"About",
+				"Exit" };
 
 int startx = 0;
 int starty = 0;
@@ -190,10 +190,10 @@ void printMenu(WINDOW * menuWindow, int highlight)
 	for (int ii = 0; ii < choices.size(); ++ii) {
 		if (highlight == ii + 1) {
 			wattron(menuWindow, A_REVERSE); 
-			mvwprintw(menuWindow, y, x, "%s", choices[ii]);
+			mvwprintw(menuWindow, y, x, "%s", choices[ii].c_str());
 			wattroff(menuWindow, A_REVERSE);
 		} else {
-			mvwprintw(menuWindow, y, x, "%s", choices[ii]);
+			mvwprintw(menuWindow, y, x, "%s", choices[ii].c_str());
 		}
 		++y;
 		wrefresh(menuWindow);
