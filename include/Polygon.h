@@ -4,8 +4,6 @@
 using std::pair;
 using std::make_pair;
 
-const double PI = 3.14159265358979;
-
 class Polygon : public Shape 
 {
 	typedef pair<double, double> coordinate; 
@@ -64,11 +62,11 @@ class Polygon : public Shape
 	{
 		coordinate start = initializeStartingPoint();
 		_tempPSText = 
-			"% " + to_string(_numSides) + "-gon Side=" + toString(_sideLength) +
+			"% " + toString(_numSides) + "-gon Side=" + toString(_sideLength) +
 			"\n"
 			"\t" + toString(start.first) + " inch "  
 			"-" + toString(start.second) + " inch rmoveto\n"
-			"\t" +  to_string(_numSides) + " {\n"
+			"\t" +  toString(_numSides) + " {\n"
 			"\t\t" + toString(_degreesPerSide) + " rotate\n"
 			"\t\t" + toString(_sideLength) + " inch 0 inch rlineto\n"
 			"\t} repeat\n"

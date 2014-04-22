@@ -16,8 +16,6 @@ class Scaled : public Shape
 				" " + toString(yScaleFactor) + 
 				" scale\n" +
 				shape.getTempPostScriptText();
-			std::cout << shape.getHeight() << " " << shape.getWidth() << "\n" 
-					<< _height << " " << _width << " end\n";
 		}
 };
 

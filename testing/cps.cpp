@@ -4,8 +4,7 @@
 #include "Polygon.h"
 #include "Arrangements.h"
 #include "Transformations.h"
-#include <string>
-using std::string;
+#include "Primitives.h"
 using std::ifstream;
 
 const int RECTANGLE1 = 14;
@@ -52,7 +51,7 @@ Colored rcolored(gon8, 1, 0, 0);
 Horizontal layeredShapes0({bcolored, hexagon, rcolored}); 
 Horizontal layeredShapes1({circle, bcolored, pentagon}); 
 Horizontal layeredShapes2({rcolored, rotatedScaledSquare, circle}); 
-Vertical layeredShapes({layeredShapes0, layeredShapes1, layeredShapes2, star});
+Vertical layeredShapes({star, scaledSquare, star, hexagon});
 Triangle triangle(72);
 
 TEST_CASE( "To File" ) {

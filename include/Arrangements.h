@@ -52,7 +52,6 @@ class Vertical : public Shape
 				setBoundingBox(shape);
 				drawConsecutiveShapes(shape);
 			}
-			std::cout << getHeight() << "\n";
 		}
 	protected:
 		virtual void setBoundingBox(Shape shape)
