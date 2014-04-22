@@ -12,7 +12,6 @@ using std::initializer_list;
 #include <fstream>
 
 const double PI = 3.14159265358979;
-enum RotationAngle { LEFT = 90, RIGHT = 270, INVERT = 180 };
 
 class Shape
 {

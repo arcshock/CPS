@@ -4,6 +4,8 @@
 using std::pair;
 using std::make_pair;
 
+const double PI = 3.14159265358979;
+
 class Polygon : public Shape 
 {
 	typedef pair<double, double> coordinate; 

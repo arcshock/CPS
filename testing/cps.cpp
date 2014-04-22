@@ -36,7 +36,7 @@ string getLinesFromMasterShapesFile(int startLine, int endLine)
 }
 
 Rectangle rectangle(72, 72);
-Square square(216);
+Square square(69);
 Polygon hexagon(6, 72);
 Polygon pentagon(5, 72);
 Polygon gon4(4, 72);
@@ -46,7 +46,7 @@ Circle circle(72);
 Scaled scaledSquare(square, 2, 2);
 Rotated rotatedScaledSquare(scaledSquare, LEFT);
 Star star(72);
-Scaled sStar(star, 0.2, 0.2);
+Scaled sStar(star, 0.4, 0.4);
 Colored bcolored(square, 0, 0, 1);
 Colored rcolored(gon8, 1, 0, 0);
 Horizontal layeredShapes0({bcolored, hexagon, rcolored}); 
