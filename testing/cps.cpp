@@ -2,6 +2,7 @@
 #include "catch.hpp"
 #include "Shapes.h"
 #include "Polygon.h"
+#include "CompoundShapes.h"
 #include <string>
 using std::string;
 using std::ifstream;
