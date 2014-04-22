@@ -52,7 +52,7 @@ class Shape
 			std::ofstream outputPSFile;
 			outputPSFile.open(fileName, std::ios::binary);
 			outputPSFile << "%!\n/inch { 72 mul } def\n"
-				"3 inch 3 inch moveto\n" << draw() << "\n\nshowpage";
+				"0 inch 0 inch moveto\n" << draw() << "\n\nshowpage";
 			outputPSFile.close();
 
 			return "I";

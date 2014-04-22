@@ -1,6 +1,6 @@
 %!
 /inch { 72 mul } def
-3 inch 3 inch moveto
+0 inch 0 inch moveto
 gsave
 % Vertical Shapes Start
 0 0.866025 inch rmoveto
@@ -23,6 +23,12 @@ grestore
 
 
 0.479167 inch 0 rmoveto
+0.006944 inch 0 rmoveto
+gsave
+grestore
+
+
+0.006944 inch 0 rmoveto
 1 inch 0 rmoveto
 gsave
 % 6-gon Side=1
@@ -36,6 +42,23 @@ grestore
 
 
 1 inch 0 rmoveto
+0.479167 inch 0 rmoveto
+gsave
+/colorize001 {0 0 1 setrgbcolor fill} def
+
+gsave
+% 4-gon Side=0.958333
+	0.479167 inch -0.479167 inch rmoveto
+	4 {
+		90 rotate
+		0.958333 inch 0 inch rlineto
+	} repeat
+	colorize001
+grestore
+grestore
+
+
+0.479167 inch 0 rmoveto
 0.847214 inch 0 rmoveto
 gsave
 /colorize100 {1 0 0 setrgbcolor fill} def
