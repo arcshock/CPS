@@ -43,10 +43,10 @@ class Shape
 			return _tempPSText;
 		}
 
-		string textToFile()
+		virtual string textToFile(string fileName)
 		{
 			ofstream outputPSFile;
-			outputPSFile.open("testing.ps", ios::app);
+			outputPSFile.open(fileName, ios::binary);
 			outputPSFile << "%!\n/inch { 72 mul } def\n3 inch 3 inch moveto\n" << draw() 
 						 << "\n\nshowpage";
 			outputPSFile.close();

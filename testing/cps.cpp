@@ -4,7 +4,28 @@
 #include "Polygon.h"
 #include <string>
 using std::string;
+using std::ifstream;
 
+string getLinesFromFile(string fileName, int startLine, int endLine)
+{
+    ifstream infile("compPS.ps");
+    string line;
+    string compPSText;
+    int count = 0;
+
+    while(std::getline(infile, line))
+    {
+        ++count;
+        if (count > endLine)
+            break;
+        if (count < startLine)
+            continue;
+
+        compPSText += line;
+    }
+
+    return compPSText;
+}
 
 string outputShape(string shape)
 {
@@ -90,7 +111,7 @@ Horizontal layeredShapes2({rcolored, rotatedScaledSquare, circle});
 Vertical layeredShapes({layeredShapes0, layeredShapes1, layeredShapes2, star});
 
 TEST_CASE( "To File" ) {
-	REQUIRE( layeredShapes.textToFile() == "I" );
+	REQUIRE( layeredShapes.textToFile("testing/testing.ps") == "I" );
 }
 TEST_CASE( "Rectangles" ) {
 	REQUIRE( rectangle.draw() == outputShape(printRectangle1) );
