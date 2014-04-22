@@ -46,7 +46,7 @@ Circle circle(72);
 Scaled scaledSquare(square, 2, 2);
 Rotated rotatedScaledSquare(scaledSquare, LEFT);
 Star star(72);
-Scaled sStar(star, .2, .2);
+Scaled sStar(star, 0.2, 0.2);
 Colored bcolored(square, 0, 0, 1);
 Colored rcolored(gon8, 1, 0, 0);
 Horizontal layeredShapes0({bcolored, hexagon, rcolored}); 
