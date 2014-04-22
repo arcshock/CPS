@@ -141,18 +141,21 @@ class Rotated : public Shape
 	public:
 		Rotated(Shape shape, RotationAngle angle)
 		{
-			setBoundingBox(shape);
-			_tempPSText = "\t" + toString(angle) +
+			setBoundingBox(shape, angle);
+			_tempPSText = "\t" + to_string(angle) +
 							" rotate\n" +
 							shape.getTempPostScriptText();
 		}
 
-		virtual void setBoundingBox(Shape shape)
+		virtual void setBoundingBox(Shape shape, RotationAngle angle)
 		{
-				if (shape.getHeight() > _height)
-					_height = shape.getHeight();
-				if (shape.getWidth() > _width)
-					_width = shape.getWidth();
+			if (angle == INVERT)
+			{
+				_width = shape.getWidth();
+				_height = shape.getHeight();
+			}
+			_width = shape.getWidth();
+			_height = shape.getHeight();
 		}	
 };
 
@@ -205,7 +208,6 @@ class Vertical : public Shape
 				setBoundingBox(shape);
 				drawConsecutiveShapes(shape);
 			}
-			std::cout << getHeight() << "\n";
 		}
 	protected:
 		virtual void setBoundingBox(Shape shape)
@@ -294,6 +296,9 @@ class Colored : public Shape
 	public:
 	Colored(Shape shape, int red, int green, int blue)
 	{
+		_height = shape.getHeight();
+		_width = shape.getWidth();
+
 		string colorizePS = "colorize" + toString(red) + toString(green) + toString(blue);
 		string definePSColor = "/" + colorizePS + " {" + toString(red) + " " + toString(green) +
 								" " + toString(blue) + " setrgbcolor fill} def";
