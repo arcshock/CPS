@@ -55,7 +55,7 @@ Vertical layeredShapes({layeredShapes0, layeredShapes1, layeredShapes2, star});
 Triangle triangle(72);
 
 TEST_CASE( "To File" ) {
-	REQUIRE( rectangle.textToFile("testing/testing.ps") == "I" );
+	REQUIRE( layeredShapes.textToFile("testing/testing.ps") == "I" );
 }
 TEST_CASE( "Rectangles" ) {
 	REQUIRE( rectangle.draw() == getLinesFromMasterShapesFile(RECTANGLE1 - 8, RECTANGLE1) );
