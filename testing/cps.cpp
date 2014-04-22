@@ -6,9 +6,9 @@
 using std::string;
 using std::ifstream;
 
-string getLinesFromFile(string fileName, int startLine, int endLine)
+string getLinesFromFile(int startLine, int endLine)
 {
-    ifstream infile("compPS.ps");
+    ifstream infile("testing/masterShapes.ps");
     string line;
     string compPSText;
     int count = 0;
@@ -21,7 +21,7 @@ string getLinesFromFile(string fileName, int startLine, int endLine)
         if (count < startLine)
             continue;
 
-        compPSText += line;
+        compPSText += line + "\n";
     }
 
     return compPSText;
@@ -114,7 +114,7 @@ TEST_CASE( "To File" ) {
 	REQUIRE( layeredShapes.textToFile("testing/testing.ps") == "I" );
 }
 TEST_CASE( "Rectangles" ) {
-	REQUIRE( rectangle.draw() == outputShape(printRectangle1) );
+	REQUIRE( rectangle.draw() == getLinesFromFile(6,13) );
 }
 TEST_CASE( "Squares" ) {
 	REQUIRE( square.draw() == outputShape(printSquare) );
