@@ -79,7 +79,7 @@ Polygon gon8(8, 72);
 Polygon gon3(3,72);
 Circle circle(72);
 Scaled scaledSquare(square, 2, 2);
-Rotated rotatedScaledSquare(gon3, LEFT);
+Rotated rotatedScaledSquare(scaledSquare, LEFT);
 Star star(72);
 Scaled sStar(star, .2, .2);
 Colored bcolored(square, 0, 0, 1);
