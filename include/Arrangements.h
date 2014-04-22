@@ -1,5 +1,5 @@
-#ifndef COMPOUND_SHAPES_H
-#define COMPOUND_SHAPES_H
+#ifndef ARRANGEMENTS_H
+#define ARRANGEMENTS_H
 
 #include "Shapes.h"
 
@@ -52,7 +52,6 @@ class Vertical : public Shape
 				setBoundingBox(shape);
 				drawConsecutiveShapes(shape);
 			}
-			std::cout << getHeight() << "\n";
 		}
 	protected:
 		virtual void setBoundingBox(Shape shape)

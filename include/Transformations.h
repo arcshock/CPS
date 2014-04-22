@@ -3,6 +3,8 @@
 
 #include "Shapes.h"
 
+enum RotationAngle { LEFT = 90, RIGHT = 270, INVERT = 180 };
+
 class Scaled : public Shape
 {
 	public:
@@ -23,7 +25,7 @@ class Rotated : public Shape
 		Rotated(Shape shape, RotationAngle angle)
 		{
 			setBoundingBox(shape, angle);
-			_tempPSText = "\t" + to_string(angle) +
+			_tempPSText = "\t" + toString(angle) +
 							" rotate\n" +
 							shape.getTempPostScriptText();
 		}

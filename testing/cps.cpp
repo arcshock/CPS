@@ -1,11 +1,11 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
+#include "Shapes.h"
 #include "Polygon.h"
 #include "Arrangements.h"
 #include "Transformations.h"
 #include "CompoundShapes.h"
-#include <string>
-using std::string;
+#include "Primitives.h"
 using std::ifstream;
 
 const int RECTANGLE1 = 14;
@@ -36,7 +36,7 @@ string getLinesFromMasterShapesFile(int startLine, int endLine)
 }
 
 Rectangle rectangle(72, 72);
-Square square(216);
+Square square(69);
 Polygon hexagon(6, 72);
 Polygon pentagon(5, 72);
 Polygon gon4(4, 72);
@@ -46,13 +46,13 @@ Circle circle(72);
 Scaled scaledSquare(square, 2, 2);
 Rotated rotatedScaledSquare(scaledSquare, LEFT);
 Star star(72);
-Scaled sStar(star, 0.2, 0.2);
+Scaled sStar(star, 0.4, 0.4);
 Colored bcolored(square, 0, 0, 1);
 Colored rcolored(gon8, 1, 0, 0);
 Horizontal layeredShapes0({bcolored, hexagon, rcolored}); 
 Horizontal layeredShapes1({circle, bcolored, pentagon}); 
 Horizontal layeredShapes2({rcolored, rotatedScaledSquare, circle}); 
-Vertical layeredShapes({layeredShapes0, layeredShapes1, layeredShapes2, star});
+Vertical layeredShapes({star, scaledSquare, star, hexagon});
 Triangle triangle(72);
 
 TEST_CASE( "To File" ) {
