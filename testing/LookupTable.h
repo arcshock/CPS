@@ -12,12 +12,10 @@ typedef pair<int,int> LineRange;
 map<string,LineRange> generateLookupTable(vector<string> testShapeNames)
 {
 	std::ifstream infile("testing/masterShapes.ps");
-	std::map<string, LineRange> masterShapeLines;
+	map<string, LineRange> masterShapeLines;
 
-	// initialize lookup table
-	for (auto name : testShapeNames) {
-		masterShapeLines.insert( std::pair<string,LineRange> (name, std::make_pair(-1,-1)));
-	}
+	for (auto name : testShapeNames) 
+		masterShapeLines.insert( pair<string,LineRange> (name, make_pair(-1,-1)));
 
 	string line;
 	string currentName;
@@ -30,7 +28,7 @@ map<string,LineRange> generateLookupTable(vector<string> testShapeNames)
 			continue;
 
 		for (auto name : testShapeNames) {
-			if (line.find(name) == std::string::npos) 
+			if (line.find(name) == string::npos) 
 				continue;
 			else {
 				if (masterShapeLines[name].first == -1) {
@@ -44,10 +42,10 @@ map<string,LineRange> generateLookupTable(vector<string> testShapeNames)
 
 		if (programDepth > 0)
 		{
-			if (line.find("gsave") != std::string::npos) {
+			if (line.find("gsave") != string::npos) {
 				++programDepth;
 			}
-			if (line.find("grestore") != std::string::npos) {
+			if (line.find("grestore") != string::npos) {
 				--programDepth;
 				if (programDepth == 1) {
 					masterShapeLines[currentName].second = lineNumber;
