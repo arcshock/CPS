@@ -1,4 +1,7 @@
 #include <string.h>
+#include <string>
+using std::to_string;
+
 #include <vector>
 using std::vector;
 
@@ -14,20 +17,47 @@ using std::endl;
 #include "Polygon.h"
 
 #include <ncurses.h>
+#include <cstdlib>
+using std::exit;
 
-void printMenu(WINDOW * menuWindow, int highlight);
-vector<string> choices = { "Draw a shape",
+void parseUserChoice(string menuSelection);
+void printMenu(WINDOW * menuWindow, int highlight, vector<string> & options);
+void interactive(vector<Shape>& shapes, vector<string> menuOptions);
+string fileName = "main.ps";
+
+vector<string> currentMenu;
+vector<string> mainMenuOptions = { "Draw shape",
 				"Specify output file",
-				"randomness",
+				"Save to file",
 				"About",
-				"Exit" };
+				"Exit"};
 
+vector<string> baseShapes = {"Star",
+				"Polygon",
+				"Square",
+				"Circle",
+				"Triangle",
+				"Rectangle",
+				"Spacer",
+				"None"};
+	
+vector<string> shapeArrangements = {"Layered",
+				"Vertical",
+				"Horizontal",
+				"None"};
+
+vector<string> shapeModOptions = {"Color",
+				"Scaled",
+				"Rotated",
+				"None"};
+
+vector<Shape> shapes;
 int startx = 0;
 int starty = 0;
 
 
-
 vector<Shape> handleArgs(int numberOfArgs, char* args[]);
+void initInterface();
 void interactive(vector<Shape>& shapes);
 
 int main(int argc, char* args[])
@@ -37,14 +67,13 @@ int main(int argc, char* args[])
 	vector<Shape> shapes = handleArgs(argc, args);
 
 	for ( auto i : shapes) {
-		i.textToFile(main.ps);
+		i.textToFile("main.ps");
 	}
 
 }
 
 vector<Shape> handleArgs(int numberOfArgs, char* args[])
 {
-	vector<Shape> shapes;
 
 	for (int ii = 1; ii < numberOfArgs; ++ii) {
 		if (strcmp(args[ii], "polygon") == 0) {
@@ -94,7 +123,9 @@ vector<Shape> handleArgs(int numberOfArgs, char* args[])
 
 		} else if (strcmp(args[ii], "-I") == 0) {
 
-			interactive(shapes);
+			initInterface();
+			currentMenu = mainMenuOptions;
+			interactive(shapes, currentMenu);
 
 		} else {
 
@@ -106,37 +137,46 @@ vector<Shape> handleArgs(int numberOfArgs, char* args[])
 	return shapes;
 }
 
-void interactive(vector<Shape>& shapes)
+
+void initInterface()
 {
-	int userInputCharacter = 0;
-	int highlight = 1;
-	const int WIDTH = 30;
-	const int HEIGHT = 10;
-	int choice = 0;
-	int c = 0;
-	WINDOW *menuWindow;
-
-
-	int numOfChoices = choices.size();
-
 	initscr();
+	noecho();
+	cbreak();
 	raw();
 	keypad(stdscr, TRUE);
-	noecho();
+}
+
+void interactive(vector<Shape>& shapes, vector<string> menuOptions)
+{
+	int userInputCharValue = 0;
+	const int WIDTH = 30;
+	const int HEIGHT = 10;
+	int choice = -1;
+	int highlight = 1;
+	WINDOW *menuWindow;
 
 	startx = (80 - WIDTH) / 2;
 	starty = (24 - HEIGHT) / 2;
 
-	menuWindow = newwin(HEIGHT, WIDTH, starty, startx);
-	keypad(menuWindow, TRUE);
+	
 
-	mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
-	refresh();
-	printMenu(menuWindow, highlight);
 
-	while(1) {
-		c = wgetch(menuWindow);
-		switch(c) {
+
+	do {
+		erase();
+		int numOfChoices = currentMenu.size();
+
+		menuWindow = newwin(numOfChoices + 4, WIDTH, starty, startx);
+		keypad(menuWindow, TRUE);
+
+
+		mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
+		refresh();
+
+		printMenu(menuWindow, highlight, currentMenu);
+		userInputCharValue = wgetch(menuWindow);
+		switch(userInputCharValue) {
 		case KEY_UP:
 			if(highlight == 1)
 				highlight = numOfChoices;
@@ -149,53 +189,227 @@ void interactive(vector<Shape>& shapes)
 			else 
 				++highlight;
 			break;
-		case 10:
-			choice = highlight;
+		case 10:			//pressed enter key
+			choice = highlight - 1; //want to be albe to align with menu
 			break;
 		default:
-			mvprintw(24, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
 			refresh();
+			choice = -1;
 			break;
 		}
 
-		printMenu(menuWindow, highlight);
-		if(choice != 0)	/* User did a choice come out of the infinite loop */
-			break;
-	}
-	
-	printw("Welcome to the C++ to PostScript Library\n");
-	refresh();
-	
-	userInputCharacter = getch();
-	
-	if (userInputCharacter == '1') {
-		attron(A_BOLD);
-		printw("Drawing polygon");
-		refresh();
-	}
+		printMenu(menuWindow, highlight, mainMenuOptions);
 
-	getch();
-	endwin();
+		if (choice > -1) {	/* User made choice come out of the infinite loop */
+			erase();
+			parseUserChoice(currentMenu[choice]);
+			refresh();
+			choice = -1;
+			delwin(menuWindow);
+			highlight = 1;
+		}
+
+	} while(true);
 }
 
-void printMenu(WINDOW * menuWindow, int highlight)
+string getFileName()
 {
-	int x, y, index;
+	return "";
+}
 
-	x = 2;
-	y = 2;
+void parseUserChoice(string menuSelection)
+{
+
+		if (menuSelection == "Specify output file") {
+			echo();
+			printw("Enter file name to save to.\n");
+			refresh();
+
+			char tempName[80];
+			scanw("%89s", tempName);
+
+			fileName = tempName;
+			fileName += ".ps";
+			erase();
+		}
+
+		if (menuSelection == "Save to file") {
+
+			printw("Saved file");
+			refresh();
+
+			for ( auto i : shapes) {
+				i.textToFile(fileName);
+			}
+		}
+
+		if (menuSelection == "Draw shape") {
+			printw("Drawing Shape");
+			refresh();
+			currentMenu = shapeArrangements;
+			refresh();
+		}
+
+		if (menuSelection == "About") {
+			printw("hey");
+			refresh();
+		}
+
+		if (menuSelection == "None") {
+			if(currentMenu == baseShapes) {
+				currentMenu = mainMenuOptions;
+			} else if (currentMenu == shapeArrangements) {
+				currentMenu = shapeModOptions;
+			} else if (currentMenu == shapeModOptions) {
+				currentMenu = baseShapes;
+			}
+		}
+
+		if (menuSelection == "Exit") {
+			endwin();
+			exit(1);
+		} 		
+		
+		if (menuSelection == "Polygon") {
+			int numSides = 0;
+			int sideLength = 0;
+
+			printw("Enter number of sides:\n");
+			refresh();
+			scanw("%d", &numSides);
+
+			printw("Enter the side length in pixels:\n");
+			refresh();
+			scanw("%d", &sideLength);
+
+			Polygon poly(numSides, sideLength);
+			shapes.push_back(poly);
+
+		} else if (menuSelection == "Circle") {
+			double radius = 0;
+
+			printw("Enter radius of circle in pixels\n");
+			refresh();
+
+			scanw("%lf", &radius);
+
+			Circle c(radius);
+			shapes.push_back(c);
+			
+		} else if (menuSelection == "Square") {
+			double side = 0;
+
+			printw("Ender side length in pixels\n");
+			refresh();
+
+			scanw("%lf", &side);
+
+			Square s(side);
+			shapes.push_back(s);
+
+		} else if (menuSelection == "Star") {
+			int sideLength = 0; 
+			
+			printw("Ender height in pixels\n");
+			refresh();
+
+			scanw("%lf", &sideLength);
+
+
+			Star s(sideLength);
+			shapes.push_back(s);
+
+		} else if (menuSelection == "Rectangle") {
+			double width = 0;
+			double height = 0;
+
+			printw("Ender width in pixels\n");
+			refresh();
+
+			scanw("%lf", &width);
+
+			printw("Ender height in pixels\n");
+			refresh();
+
+			scanw("%lf", &height);
+
+			Rectangle r(width, height);
+			shapes.push_back(r);
+
+		} else if (menuSelection == "Spacer") {
+			double width = 0;
+			double height = 0;
+
+			printw("Ender width in pixels\n");
+			refresh();
+
+			scanw("%lf", &width);
+
+			printw("Ender height in pixels\n");
+			refresh();
+
+			scanw("%lf", &height);
+
+
+			Spacer c(width, height);
+			shapes.push_back(c);
+		}
+		
+		if (menuSelection == "Color") {
+			int red = 0;
+			int green = 0;
+			int blue = 0;
+
+			printw("Enter a value for red, green, and blue\n");
+			refresh();
+
+			scanw("%d %d %d", &red, &green, &blue);
+
+			Colored coloredObject(shapes.back(), red, green, blue);
+			shapes.push_back(coloredObject);
+		}
+		if (menuSelection == "Scaled") {
+			double xScaleFactor = 1;
+			double yScaleFactor = 1;
+
+			printw("Enter x and y scaling factors\n");
+			refresh();
+
+			scanw("%lf %lf", &xScaleFactor, &yScaleFactor);
+
+			Scaled scaledObject(shapes.back(), xScaleFactor, yScaleFactor);
+			shapes.push_back(scaledObject);
+		}
+		if (menuSelection == "Rotated") {
+			RotationAngle rotationAngle;
+
+			printw("Enter either, 90, 180, or 270 for rotation angle\n");
+			refresh();
+
+			scanw("%d", &rotationAngle);
+
+			Rotated rotatedObject(shapes.back(), rotationAngle);
+			shapes.push_back(rotatedObject);
+		}
+
+}
+
+void printMenu(WINDOW * menuWindow, int highlight, vector<string> & options)
+{
+	int xCoord = 2;
+	int yCoord = 2;
 
 	box(menuWindow, 0, 0);
 
-	for (int ii = 0; ii < choices.size(); ++ii) {
+	for (int ii = 0; ii < options.size(); ++ii) {
 		if (highlight == ii + 1) {
 			wattron(menuWindow, A_REVERSE); 
-			mvwprintw(menuWindow, y, x, "%s", choices[ii].c_str());
+			mvwprintw(menuWindow, yCoord, xCoord, "%s", options[ii].c_str());
 			wattroff(menuWindow, A_REVERSE);
 		} else {
-			mvwprintw(menuWindow, y, x, "%s", choices[ii].c_str());
+			mvwprintw(menuWindow, yCoord, xCoord, "%s", options[ii].c_str());
 		}
-		++y;
+		++yCoord;
 		wrefresh(menuWindow);
 	}
 
