@@ -8,7 +8,7 @@
 
 CC = g++
 CFLAGS =  -std=c++11 
-CFLAGS_DEBUG = -g -Wall
+CFLAGS_DEBUG = -g -Wall -pg
 
 INCLUDE = -I ./include/
 SRC = ./src/*.cpp
@@ -27,13 +27,13 @@ all:
 
 
 #- build: compiles the project.
-build:
-	$(CC) $(CFLAGS) $(INCLUDE) $(SRC) $(LIB) -o ./build/debug/cps-build.out
+build: mkbuild
+	$(CC) $(CFLAGS) $(INCLUDE) $(SRC) $(LIB) -o ./build/release/cps-build.out
 
 
-#- run: runs the program executable.
+#- run: runs the program executable in interactive mode.
 run:
-	./build/debug/cps-build.out
+	./build/release/cps-build.out -I
 
 #- test: runs testing suit
 test:
@@ -49,7 +49,7 @@ exe: mkbuild
 
 #- debug compiles project with debugging symbols.
 debug: mkbuild
-	$(CC) $(CFLAGS) $(CFLAGS_DEBUG) $(INCLUDE) $(SRC) -o ./build/debug/cps-debug.out
+	$(CC) $(CFLAGS) $(CFLAGS_DEBUG) $(INCLUDE) $(SRC) $(LIB) -o ./build/debug/cps-debug.out
 
 
 #- mkbuild: creates the build directory structure.
