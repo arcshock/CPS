@@ -21,7 +21,7 @@ Polygon gon19(19,30);
 Triangle triangle(72);
 Circle circle(72);
 Star star(72);
-Scaled scaledStar(star, 0.5, 0.5);
+Scaled scaledStar(star, 0.4, 0.4);
 Scaled scaledSquare(square, 2, 2);
 Rotated rotatedTriangle(triangle, LEFT);
 Colored blueSquare(square, 0, 0, 1);
