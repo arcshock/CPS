@@ -55,7 +55,7 @@ class Circle : public Shape
 class Star : public Shape
 {
 	public:
-		Star(double starRadius) : _radius(starRadius * 72)
+		Star(double starRadius) : _radius(starRadius)
 		{
 			double innerPentagonSideLength = getPentagonSideLength();
 			double inchInnerPentagonSideLength = toInches(innerPentagonSideLength);
