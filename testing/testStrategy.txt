@@ -1,0 +1,3 @@
+Our testing strategy, is two-fold. The first fold uses Catch tests to verify the draw() functions of several shapes by comparing the output string to a string contatined in the masterShapes.ps file. The second part is using a bash script to compare the output file to a known good output file. Both tests are done at once when a "make test" is called. 
+
+Additionally, we need to manually check the output file or the masterShapes file when they are modified. 
