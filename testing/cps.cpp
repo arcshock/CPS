@@ -59,10 +59,12 @@ Horizontal horizontal0({blueSquare, spacer, hexagon, blueSquare, redScaledStar})
 Horizontal horizontal1({circle, layered, pentagon}); 
 Horizontal horizontal2({pentagon, pentagon, pentagon}); 
 Horizontal horizontal3({blueSquare,blueSquare,blueSquare,rotatedTriangle,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare});
-Vertical vertical({horizontal2, horizontal2, horizontal2, spacer, horizontal3});
+Horizontal horizontal4({redScaledStar, scaledStar, redScaledStar});
+Vertical vertical1({horizontal2, horizontal2, horizontal2, spacer, horizontal3});
+Vertical vertical2({horizontal4, horizontal3, horizontal4});
 
 TEST_CASE( "To File" ) {
-	REQUIRE( vertical.textToFile("testing/testing.ps") == "I" );
+	REQUIRE( vertical2.textToFile("testing/testing.ps") == "I" );
 }
 TEST_CASE( "Rectangles" ) {
 	REQUIRE( rectangle.draw() == getLinesFromMasterShapesFile(RECTANGLE1 - 8, RECTANGLE1) );
