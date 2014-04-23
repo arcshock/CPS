@@ -42,9 +42,9 @@ map<string,LineRange> generateLookupTable(vector<string> testShapeNames)
 
 		if (programDepth > 0)
 		{
-			if (line.find("gsave") != string::npos) {
+			if (line.find("gsave") != string::npos) 
 				++programDepth;
-			}
+			
 			if (line.find("grestore") != string::npos) {
 				--programDepth;
 				if (programDepth == 1) {
