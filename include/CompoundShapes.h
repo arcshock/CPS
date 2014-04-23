@@ -6,6 +6,7 @@
 #include "Transformations.h"
 #include "Arrangements.h"
 
+// Note flag term canton - that's the blue rectangle area that holds the stars.
 class Flag : public Shape
 {
 	public:
