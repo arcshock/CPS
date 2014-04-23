@@ -354,6 +354,10 @@ void parseUserChoice(string menuSelection)
 			Spacer c(width, height);
 			shapes.push_back(c);
 		}
+
+		if (menuSelection == "Layered") {
+			//TODO	
+		}
 		
 		if (menuSelection == "Color") {
 			int red = 0;
