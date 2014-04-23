@@ -56,22 +56,27 @@ class Circle : public Shape
 class Star : public Shape
 {
 	public:
-		Star(double sideLength)
+		Star(double starRadius) : _radius(starRadius)
 		{
-			sideLength = toInches(sideLength);
-			double isocelesLeg = (sideLength/(2*PHI +1));
-			double innerPentagonSideLength = isocelesLeg/PHI;
-			double outerPentagonSideLength = isocelesLeg + innerPentagonSideLength;
-			setBoundingBox(sideLength);
+			double innerPentagonSideLength = getPentagonSideLength();
+			double inchInnerPentagonSideLength = toInches(innerPentagonSideLength);
+			double isocelesLeg = (inchInnerPentagonSideLength * PHI);
+			setBoundingBox(inchInnerPentagonSideLength, isocelesLeg);
 			_tempPSText = 
 				"% Star\n"
-				"\t -180 rotate\n"
-				"\t" + toString((innerPentagonSideLength + isocelesLeg) / 2 ) + " inch -" + toString(_height / 2) + " inch rmoveto\n"
-				"\t1 1 5 {\n"
-				"\tpop\n"
+				"\t180 rotate\n"  
+				"\t" + toString(inchInnerPentagonSideLength / 2.0 ) + " inch -" 
+				+ toString(inchInnerPentagonSideLength * 0.769421) + " inch rmoveto\n"
+				"\t5 {\n"
+				"\tgsave\n"
+				"\t\t" + toString(isocelesLeg) + " inch 0 inch rlineto\n"
 				"\t\t144 rotate\n"
-				"\t\t" + toString(_width) + " inch 0 rlineto\n"
-				"\t} for\n"
+				"\t\t" + toString(isocelesLeg) + " inch 0 inch rlineto\n"
+				"\t\tstroke\n"
+				"\tgrestore\n"
+				"\t" + toString(72.0) + " rotate\n"
+				"\t" + toString(inchInnerPentagonSideLength) + " inch 0 inch rlineto\n" 
+				"\t} repeat\n"
 				"\tstroke\n";
 		}
 
@@ -85,11 +90,11 @@ class Star : public Shape
 			return sqrt(numerator / denominator);
 		}
 
-		virtual void setBoundingBox(double sideLength)
+
+		virtual void setBoundingBox(double innerPentagonSideLength, double isocelesLeg)
 		{
-			double angle = PI / 5;
-			_width = sideLength;//xinnerPentagonSideLength + (2 * isocelesLeg);
-			_height = sideLength;//(_width - isocelesLeg) * (1 + cos(angle)) / (2 * sin(angle));
+			_width = innerPentagonSideLength + (2 * isocelesLeg);
+			_height = _width * sin(72*PI/180); 
 		}
 
 		double _radius;

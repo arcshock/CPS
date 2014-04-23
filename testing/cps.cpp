@@ -6,38 +6,10 @@
 #include "Transformations.h"
 #include "CompoundShapes.h"
 #include "Primitives.h"
-using std::ifstream;
-
-const int RECTANGLE1 = 14;
-const int SQUARE = RECTANGLE1 + 16;
-const int HEXAGON = SQUARE + 16;
-const int PENTAGON = HEXAGON + 16;
-const int CIRCLE = PENTAGON + 13;
-const int SCALED = CIRCLE + 16;
-const int ROTATED = SCALED + 16;
-const int RED = ROTATED + 27;
-const int OCTOGON = RED + 15;
-const int GON19 = OCTOGON + 15;
-const int TRIANGLE = GON19 + 15;
-
-string getLinesFromMasterShapesFile(int startLine, int endLine)
-{
-    ifstream infile("testing/masterShapes.ps");
-    string line;
-    string compPSText;
-    int count = 0;
-
-    while(std::getline(infile, line))
-    {
-        ++count;
-        if (count > endLine)
-            break;
-        if (count < startLine)
-            continue;
-        compPSText += line + "\n";
-    }
-    return compPSText;
-}
+#include "LookupTable.h"
+#include <fstream>
+#include <map>
+#include <vector>
 
 Spacer spacer(4, 31);
 Rectangle rectangle(49, 92);
@@ -49,7 +21,7 @@ Polygon gon19(19,30);
 Triangle triangle(72);
 Circle circle(72);
 Star star(72);
-Scaled scaledStar(star, 0.4, 0.4);
+Scaled scaledStar(star, 0.5, 0.5);
 Scaled scaledSquare(square, 2, 2);
 Rotated rotatedTriangle(triangle, LEFT);
 Colored blueSquare(square, 0, 0, 1);
@@ -63,30 +35,47 @@ Horizontal horizontal4({redScaledStar, scaledStar, redScaledStar});
 Vertical vertical1({horizontal2, horizontal2, horizontal2, spacer, horizontal3});
 Vertical vertical2({horizontal4, horizontal3, horizontal4});
 
+std::vector<string> testShapeNames  = 
+	{ "printRectangle1", "printSquare", "printHexagon", "printPentagon", "printCircle", 
+	"printScaledSquare", "Rotated", "RedScaled Star", "Octagon", "Gon-19", "Triangle"};
+
+std::map<string,LineRange> lookup = 
+	generateLookupTable(testShapeNames);
+
 TEST_CASE( "To File" ) {
 	REQUIRE( vertical2.textToFile("testing/testing.ps") == "I" );
 }
 TEST_CASE( "Rectangles" ) {
-	REQUIRE( rectangle.draw() == getLinesFromMasterShapesFile(RECTANGLE1 - 8, RECTANGLE1) );
+	LineRange rect1 = lookup[testShapeNames[0]];
+	REQUIRE( rectangle.draw() == getLinesFromMasterShapesFile(rect1) );
 }
 TEST_CASE( "Regular Polygons" ) {
-	REQUIRE( hexagon.draw() == getLinesFromMasterShapesFile(HEXAGON - 8, HEXAGON) );
-	REQUIRE( pentagon.draw() == getLinesFromMasterShapesFile(PENTAGON - 8, PENTAGON) );
-	REQUIRE( octogon.draw() == getLinesFromMasterShapesFile(OCTOGON -8, OCTOGON) );
-	REQUIRE( gon19.draw() == getLinesFromMasterShapesFile(GON19 - 8, GON19) );
-	REQUIRE( triangle.draw() == getLinesFromMasterShapesFile(TRIANGLE - 8, TRIANGLE) );
-	REQUIRE( square.draw() == getLinesFromMasterShapesFile(SQUARE - 8, SQUARE) );
+	LineRange hex = lookup[testShapeNames[2]];
+	REQUIRE( hexagon.draw() == getLinesFromMasterShapesFile(hex) );
+	LineRange penta = lookup[testShapeNames[3]];
+	REQUIRE( pentagon.draw() == getLinesFromMasterShapesFile(penta) );
+	LineRange octa = lookup[testShapeNames[8]];
+	REQUIRE( octogon.draw() == getLinesFromMasterShapesFile(octa) );
+	LineRange nineteen = lookup[testShapeNames[9]];
+	REQUIRE( gon19.draw() == getLinesFromMasterShapesFile(nineteen) );
+	LineRange tri = lookup[testShapeNames[10]];
+	REQUIRE( triangle.draw() == getLinesFromMasterShapesFile(tri) );
+	LineRange sq = lookup[testShapeNames[1]];
+	REQUIRE( square.draw() == getLinesFromMasterShapesFile(sq) );
 }
 TEST_CASE( "Circle" ) {
-	REQUIRE( circle.draw() == getLinesFromMasterShapesFile(CIRCLE - 5, CIRCLE) );
+	LineRange circ = lookup[testShapeNames[4]];
+	REQUIRE( circle.draw() == getLinesFromMasterShapesFile(circ) );
 }
 TEST_CASE( "Scaled" ) {
-	REQUIRE( scaledSquare.draw() == getLinesFromMasterShapesFile(SCALED - 9, SCALED) );
+	LineRange scalesq = lookup[testShapeNames[5]];
+	REQUIRE( scaledSquare.draw() == getLinesFromMasterShapesFile(scalesq) );
 }
 TEST_CASE( "Rotated" ) {
-	REQUIRE( rotatedTriangle.draw() == getLinesFromMasterShapesFile(ROTATED - 9, 
-											ROTATED) );
+	LineRange rot = lookup[testShapeNames[6]];
+	REQUIRE( rotatedTriangle.draw() == getLinesFromMasterShapesFile(rot));
 }
 TEST_CASE( "Colored" ) {
-	REQUIRE( redScaledStar.draw() == getLinesFromMasterShapesFile(RED - 20, RED) );
+	LineRange color = lookup[testShapeNames[7]];
+	REQUIRE( redScaledStar.draw() == getLinesFromMasterShapesFile(color) );
 }
