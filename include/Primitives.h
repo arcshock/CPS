@@ -1,5 +1,6 @@
 #ifndef PRIMITIVES_H
 #define PRIMITIVES_H
+#include "Shapes.h"
 #include <cmath>
 using std::sin;
 using std::cos;

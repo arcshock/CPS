@@ -21,21 +21,21 @@ Polygon gon19(19,30);
 Triangle triangle(72);
 Circle circle(72);
 Star star(72);
-Scaled scaledStar(star, 1.4, 1.4);
+Scaled scaledStar(star, 0.4, 0.4);
 Scaled scaledSquare(square, 2, 2);
 Rotated rotatedTriangle(triangle, LEFT);
 Colored blueSquare(square, 0, 0, 1);
 Colored redScaledStar(scaledStar, 1, 0, 0);
-Layered layered({star});
-Scaled scaledLayer(layered, 1.4, 1.4);
+Layered layered({star, circle});
 Horizontal horizontal0({blueSquare, spacer, hexagon, blueSquare, redScaledStar}); 
 Horizontal horizontal1({circle, layered, pentagon}); 
 Horizontal horizontal2({pentagon, pentagon, pentagon}); 
-Horizontal horizontal3({blueSquare,spacer,blueSquare,blueSquare,spacer,blueSquare,blueSquare,spacer,blueSquare,blueSquare,spacer,blueSquare,blueSquare,spacer,blueSquare,blueSquare,spacer,blueSquare,blueSquare});
-Horizontal horizontal4({scaledLayer, scaledLayer, scaledLayer, scaledLayer});
-Vertical vertical({horizontal3, horizontal4, horizontal3, spacer, horizontal3});
-Flag glory(72 * 4);
+Horizontal horizontal3({blueSquare,blueSquare,blueSquare,rotatedTriangle,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare});
+Horizontal horizontal4({redScaledStar, scaledStar, redScaledStar});
+Vertical vertical1({horizontal2, horizontal2, horizontal2, spacer, horizontal3});
+Vertical vertical2({horizontal4, horizontal3, horizontal4});
 
+Flag glory(72 * 4);
 std::vector<string> testShapeNames  = 
 	{ "printRectangle1", "printSquare", "printHexagon", "printPentagon", "printCircle", 
 	"printScaledSquare", "Rotated", "RedScaled Star", "Octagon", "Gon-19", "Triangle"};
@@ -44,7 +44,7 @@ std::map<string,LineRange> lookup =
 	generateLookupTable(testShapeNames);
 
 TEST_CASE( "To File" ) {
-	REQUIRE( vertical.textToFile("testing/testing.ps") == "I" );
+	REQUIRE( vertical2.textToFile("testing/testing.ps") == "I" );
 	glory.textToFile("testing/oldglory.ps");
 }
 TEST_CASE( "Rectangles" ) {
@@ -81,4 +81,3 @@ TEST_CASE( "Colored" ) {
 	LineRange color = lookup[testShapeNames[7]];
 	REQUIRE( redScaledStar.draw() == getLinesFromMasterShapesFile(color) );
 }
-
