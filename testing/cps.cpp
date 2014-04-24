@@ -21,17 +21,20 @@ Polygon gon19(19,30);
 Triangle triangle(72);
 Circle circle(72);
 Star star(72);
-Scaled scaledStar(star, 0.5, 0.5);
+Scaled scaledStar(star, 1.4, 1.4);
 Scaled scaledSquare(square, 2, 2);
 Rotated rotatedTriangle(triangle, LEFT);
 Colored blueSquare(square, 0, 0, 1);
 Colored redScaledStar(scaledStar, 1, 0, 0);
-Layered layered({star, circle});
+Layered layered({star});
+Scaled scaledLayer(layered, 1.4, 1.4);
 Horizontal horizontal0({blueSquare, spacer, hexagon, blueSquare, redScaledStar}); 
 Horizontal horizontal1({circle, layered, pentagon}); 
 Horizontal horizontal2({pentagon, pentagon, pentagon}); 
-Horizontal horizontal3({blueSquare,blueSquare,blueSquare,rotatedTriangle,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare,blueSquare});
-Vertical vertical({horizontal2, horizontal2, horizontal2, spacer, horizontal3});
+Horizontal horizontal3({blueSquare,spacer,blueSquare,blueSquare,spacer,blueSquare,blueSquare,spacer,blueSquare,blueSquare,spacer,blueSquare,blueSquare,spacer,blueSquare,blueSquare,spacer,blueSquare,blueSquare});
+Horizontal horizontal4({scaledLayer, scaledLayer, scaledLayer, scaledLayer});
+Vertical vertical({horizontal3, horizontal4, horizontal3, spacer, horizontal3});
+Flag glory(72 * 4);
 
 std::vector<string> testShapeNames  = 
 	{ "printRectangle1", "printSquare", "printHexagon", "printPentagon", "printCircle", 
@@ -42,6 +45,7 @@ std::map<string,LineRange> lookup =
 
 TEST_CASE( "To File" ) {
 	REQUIRE( vertical.textToFile("testing/testing.ps") == "I" );
+	glory.textToFile("testing/oldglory.ps");
 }
 TEST_CASE( "Rectangles" ) {
 	LineRange rect1 = lookup[testShapeNames[0]];
@@ -77,3 +81,4 @@ TEST_CASE( "Colored" ) {
 	LineRange color = lookup[testShapeNames[7]];
 	REQUIRE( redScaledStar.draw() == getLinesFromMasterShapesFile(color) );
 }
+
