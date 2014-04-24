@@ -55,45 +55,45 @@ class Circle : public Shape
 class Star : public Shape
 {
 	public:
-		Star(double starRadius) : _radius(starRadius)
+		Star(int starRadius) : _radius(starRadius / 72.0)
 		{
-			double innerPentagonSideLength = getPentagonSideLength();
-			double inchInnerPentagonSideLength = toInches(innerPentagonSideLength);
-			double isocelesLeg = (inchInnerPentagonSideLength * PHI);
-			setBoundingBox(inchInnerPentagonSideLength, isocelesLeg);
+			setBoundingBox();
 			_tempPSText = 
 				"% Star\n"
-				"\t180 rotate\n"  
-				"\t" + toString(inchInnerPentagonSideLength / 2.0 ) + " inch -" 
-				+ toString(inchInnerPentagonSideLength * 0.769421) + " inch rmoveto\n"
+				"\t180 rotate\n"
+				"\t-" + toString(_width / 2.0) + " inch -" + 
+				toString(getPentagonDownPoint()) + " inch rmoveto\n"
 				"\t5 {\n"
-				"\tgsave\n"
-				"\t\t" + toString(isocelesLeg) + " inch 0 inch rlineto\n"
+				"\t\t" + toString(getPentagonSideLength()) + " inch 0 inch rlineto\n"
 				"\t\t144 rotate\n"
-				"\t\t" + toString(isocelesLeg) + " inch 0 inch rlineto\n"
-				"\t\tstroke\n"
-				"\tgrestore\n"
-				"\t" + toString(72.0) + " rotate\n"
-				"\t" + toString(inchInnerPentagonSideLength) + " inch 0 inch rlineto\n" 
 				"\t} repeat\n"
 				"\tstroke\n";
 		}
 
+		double getPentagonDownPoint()
+		{
+			double down = 0.5 * sqrt(0.2 * (5 - 2 * sqrt(5)));
+			return getPentagonSideLength() * down;
+		}
+
 		double getPentagonSideLength()
 		{
-			const double PHISQ = PHI * PHI;
-			double numerator = 
-				-(PHISQ + PHI - (2 * _radius * PHISQ) - (_radius / 2) + .25);
-			double denominator =
-				(PHISQ * PHISQ) - PHISQ / 2 + .0625;
-			return sqrt(numerator / denominator);
+			return _radius / sqrt(.1 * (5 - sqrt(5)));
+		}
+
+		double getPentagonHeight()
+		{
+			double radical = (25.0 - 11.0 * sqrt(5.0));
+			double circumRadiusInnerPentagon = sqrt(0.1 * radical);
+			double verticaldistance = 0.5 * sqrt(0.5 * radical);
+			return (_radius + circumRadiusInnerPentagon + verticaldistance) * sqrt(getPentagonSideLength());
 		}
 
 
-		virtual void setBoundingBox(double innerPentagonSideLength, double isocelesLeg)
+		virtual void setBoundingBox()
 		{
-			_width = innerPentagonSideLength + (2 * isocelesLeg);
-			_height = _width * sin(72*PI/180); 
+			_width = getPentagonSideLength();
+			_height = getPentagonHeight();
 		}
 
 		double _radius;
