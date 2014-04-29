@@ -15,6 +15,7 @@ class Flag : public Shape
 			_height = 1.0 * height;
 			_width = 1.9 * height * 2;
 
+			Rectangle outline(_width, _height * 1.99);
 			Rectangle field(getCantonWidth(), getCantonHeight());
 			Colored fieldOfBlue(field, 0, 0, 1);
 			Spacer topCorner(0, _height * 6.0 / 13.0);
@@ -37,7 +38,7 @@ class Flag : public Shape
 			Vertical stripes({red, white, red, white, red, white, 
 					red, white, red, white, red, white, red});
 
-			Layered flag({stripes, placedField, starSpangled});
+			Layered flag({outline, stripes, placedField, starSpangled});
 			_tempPSText = flag.draw() ;
 		}
 
