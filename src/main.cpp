@@ -14,6 +14,8 @@ using std::cin;
 using std::endl;
 
 #include "Shapes.h"
+#include "Primitives.h"
+#include "Transformations.h"
 #include "Polygon.h"
 
 #include <ncurses.h>
@@ -356,9 +358,20 @@ void parseUserChoice(string menuSelection)
 		}
 
 		if (menuSelection == "Layered") {
-			//TODO	
+			//TODO
 		}
-		
+	
+		if (menuSelection == "Triangle") {
+			double sideLength = 0;
+
+			printw("Enter the side length of triangle\n");
+			refresh();
+
+			scanw("%lf", &sideLength);
+
+			Triangle t(sideLength);
+			shapes.push_back(t);
+		}
 		if (menuSelection == "Color") {
 			int red = 0;
 			int green = 0;
